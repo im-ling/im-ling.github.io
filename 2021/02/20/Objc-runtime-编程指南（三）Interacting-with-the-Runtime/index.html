@@ -9,7 +9,7 @@
     
     <title>
         
-            Objc runtime 编程指南（二）Runtime Versions and Platforms |
+            Objc-runtime-编程指南（三）Interacting-with-the-Runtime |
         
         Ling&#39;s blog
     </title>
@@ -113,7 +113,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Objc runtime 编程指南（二）Runtime Versions and Platforms</span>
+            <span class="title-hover-animation">Objc-runtime-编程指南（三）Interacting-with-the-Runtime</span>
         </div>
 
         
@@ -131,7 +131,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-02-20 15:56:00
+        <i class="fas fa-edit"></i>&nbsp;2021-02-20 17:48:49
     </span>
     
     
@@ -148,19 +148,18 @@
         
 
         <div class="article-content markdown-body">
-            <h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtVersionsPlatforms.html#//apple_ref/doc/uid/TP40008048-CH106-SW1" >原文链接<i class="fas fa-external-link-alt"></i></a><br><br><br><br></p>
-<h2 id="Runtime-Versions-and-Platforms-（runtime-版本和平台）"><a href="#Runtime-Versions-and-Platforms-（runtime-版本和平台）" class="headerlink" title="Runtime Versions and Platforms （runtime 版本和平台）"></a>Runtime Versions and Platforms （runtime 版本和平台）</h2><p>在不同平台有着不同的Objective-C runtime版本。<br><br><br><br></p>
-<h2 id="Legacy-and-Modern-Versions"><a href="#Legacy-and-Modern-Versions" class="headerlink" title="Legacy and Modern Versions"></a>Legacy and Modern Versions</h2><p>目前有<code>新版</code>和<code>旧版</code>两种runtime版本。 <code>新版</code>在Objective-C 2.0时被介绍，它包换了很多新的特性。  <code>旧版</code>runtime的编程接口在<code>Objective-C 1 Runtime Reference</code>有介绍; <a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/documentation/objectivec/objective-c_runtime" >Objective-C Runtime Reference<i class="fas fa-external-link-alt"></i></a>介绍了<code>新版</code>runtime的编程接口。</p>
-<p><code>新版</code>最著名的特性是实例变量<code>不再脆弱</code>：</p>
-<ul>
-<li><p><code>旧版</code>runtime中，如果你更改一个类的实例变量，你需要重新编译该类的子类。</p>
-</li>
-<li><p><code>新版</code>runtime中，如果你更改一个类的实例变量，你不需要重新编译该类的子类。</p>
-</li>
-</ul>
-<p>此外，<code>新版</code>runtime支持对已声明属性之实例变量合成(参见<a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjectiveC/Introduction/introObjectiveC.html#//apple_ref/doc/uid/TP30001163" >The Objective-C Programming Language<i class="fas fa-external-link-alt"></i></a>的<a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjectiveC/Chapters/ocProperties.html#//apple_ref/doc/uid/TP30001163-CH17" >Declared Properties<i class="fas fa-external-link-alt"></i></a>篇章)。<br><br><br><br></p>
-<h2 id="Platforms"><a href="#Platforms" class="headerlink" title="Platforms"></a>Platforms</h2><p>iPhone程序和运行在OS X v10.5以后的64位程序使用<code>新版</code>runtime。</p>
-<p>其他程序（OS X上32位程序）使用的是<code>旧版</code>runtime.</p>
+            <h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtInteracting.html#//apple_ref/doc/uid/TP40008048-CH103-SW1" >原文链接<i class="fas fa-external-link-alt"></i></a><br><br><br><br></p>
+<h2 id="Interacting-with-the-Runtime-runtime-交互"><a href="#Interacting-with-the-Runtime-runtime-交互" class="headerlink" title="Interacting with the Runtime (runtime 交互)"></a>Interacting with the Runtime (runtime 交互)</h2><p>Objective-C 可以和runtime系统在三个层级上进行交互： <code>通过Objective-C源代码交互</code>、<code>通过Foudation库中NSObject类的已定义方法交互</code>、<code>直接通过调用runtime的函数交互</code>。<br><br><br><br></p>
+<h2 id="Objective-C-Source-Code-（objc源代码）"><a href="#Objective-C-Source-Code-（objc源代码）" class="headerlink" title="Objective-C Source Code （objc源代码）"></a>Objective-C Source Code （objc源代码）</h2><p>大多数情况下，runtime系统是自动在幕后运行工作的。你只需要编写和编译Objective-C源代码就可以使用它。</p>
+<p>当你编译的代码包含Objective-C的类和方法，编译器会创建对应的数据结构和函数来实现objc语言的动态特性。该数据结构会捕获类、分类定义、以及协议声明中的信息；这些信息包括类和协议对象；也包括方法选择器，实例变量模版，和源代码中提取的其他信息。其中，类和协议对象在<a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjectiveC/Introduction/introObjectiveC.html#//apple_ref/doc/uid/TP30001163" >The Objective-C Programming Language<i class="fas fa-external-link-alt"></i></a>文档的<a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjectiveC/Chapters/ocDefiningClasses.html#//apple_ref/doc/uid/TP30001163-CH12" >Defining a Class<i class="fas fa-external-link-alt"></i></a> 和 <a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjectiveC/Chapters/ocProtocols.html#//apple_ref/doc/uid/TP30001163-CH15" >Protocols<i class="fas fa-external-link-alt"></i></a>有所讨论。</p>
+<p>最重要的runtime方法是用来发送消息的方法，将在<a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html#//apple_ref/doc/uid/TP40008048-CH104-SW1" >Messaging<i class="fas fa-external-link-alt"></i></a>介绍。它由源代码中的消息表达式调用。<br><br><br><br></p>
+<h2 id="NSObject-Methods-（NSObject-方法）"><a href="#NSObject-Methods-（NSObject-方法）" class="headerlink" title="NSObject Methods （NSObject 方法）"></a>NSObject Methods （NSObject 方法）</h2><p>大多数Cocoa框架的对象都是NSObject的子类，所以大多数类都继承了NSObject类定义的方法。(需要注意的意外是NSProxy类；请在 <a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtForwarding.html#//apple_ref/doc/uid/TP40008048-CH105-SW1" >Message Forwarding<i class="fas fa-external-link-alt"></i></a> 一文查询细节。) 因此，NSObject的方法为所有的实例和类建立了一套固有行为。然而，极小情况下，NSObject类仅仅为一些事该如何做定义了一套模版，并没有提供所有需要的实现代码。</p>
+<p>例如，NSObject定义了一个<code>description</code>的实例方法用来返回一个<code>用来描述该类类的内容</code>的string。这个方法主要用于在调试—— GDB <code>print-object</code> 命令打印该方法返回的string。NSObject’s的<code>description</code>方法的实现不清楚类具体内容，所以方法实现返回一个包含这个对象类名、地址的string。NSObject的子类可以实现此方法来返回更多的具体信息。如，Foundation框架中NSArray类的<code>description</code>的方法实现，返回了该array包含的所有对象的descriptions的一个list。</p>
+<p>有些NSObject的方法简单的向运行时系统查询一些信息。这些方法允许对象执行<code>introspection</code>。例如一些类的类方法：<code>isKindOfClass:</code>，用来检查对象是否是类或子类的成员；<code>isMemberOfClass:</code>，检测对象是否是类的成员；<code>respondsToSelector:</code>，用来判断一个对象是否响应一个特定的方法；<code>conformsToProtocol:</code>, 用来判断一个类是否<code>声明</code>实现某个特性协议的方法； <code>methodForSelector:</code>，提供了某个方法的实现地址。类似于以上的这些方法给一个对象<code>introspection</code>它自己的能力。</p>
+<br>
+<br>
+
+<h2 id="Runtime-Functions（runtime-函数）"><a href="#Runtime-Functions（runtime-函数）" class="headerlink" title="Runtime Functions（runtime 函数）"></a>Runtime Functions（runtime 函数）</h2><p>运行时系统是一个动态分享库，它的接口是有一系列数据结构和函数构成的，这些数据结构和函数分布在文件夹/usr/include/objc中的各个头文件中。这些函数中的一些方法允许你用纯C复现你在写Objective-C代码时编译器做的事情。其他的组成了一些功能的基础，这些功能是通过NSObject类的方法输出的。这些函数为<code>给运行时系统开发其他接口</code>和<code>给开发环境开发增强工具</code>提供了可能,但它们在编写Objective-C程序时是不需要的。但是，在编写Objective-C程序时的某些特定的场合，有少部分runtime函数是非常有用的。所有的这些函数在<a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/documentation/objectivec/objective-c_runtime" >Objective-C Runtime Reference<i class="fas fa-external-link-alt"></i></a> 均有详尽描述。</p>
 
         </div>
 
@@ -169,29 +168,14 @@
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2021/02/20/Objc-runtime-%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97%EF%BC%88%E4%B8%89%EF%BC%89Interacting-with-the-Runtime/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">Objc-runtime-编程指南（三）Interacting-with-the-Runtime</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/02/20/Objc-runtime-%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97%EF%BC%88%E4%B8%80%EF%BC%89Introdution/"
+                           href="/2021/02/20/Objc-runtime-%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97%EF%BC%88%E4%BA%8C%EF%BC%89Runtime-Versions-and-Platforms/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">Objc runtime 编程指南（一）Introdution</span>
+                                <span class="post-nav-title-item">Objc runtime 编程指南（二）Runtime Versions and Platforms</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
