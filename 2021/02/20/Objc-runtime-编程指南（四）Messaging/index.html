@@ -215,7 +215,7 @@
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> (*<span class="keyword">setter</span>)(<span class="keyword">id</span>, SEL, <span class="built_in">BOOL</span>);</span><br><span class="line"><span class="keyword">int</span> i;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">setter</span> = (<span class="keyword">void</span> (*)(<span class="keyword">id</span>, SEL, <span class="built_in">BOOL</span>))[target</span><br><span class="line">    methodForSelector:<span class="keyword">@selector</span>(setFilled:)];</span><br><span class="line"><span class="keyword">for</span> ( i = <span class="number">0</span> ; i &lt; <span class="number">1000</span> ; i++ )</span><br><span class="line">    <span class="keyword">setter</span>(targetList[i], <span class="keyword">@selector</span>(setFilled:), <span class="literal">YES</span>);</span><br></pre></td></tr></table></figure>
 <p>传递给这段程序的前两个参数是接收者(<code>self</code>)和方法选择器(<code>_cmd</code>).这两个参数在方法语法中是隐藏的，但当一个方法在被作为函数调用时，他们时必须被显示声明的。</p>
 <p>使用<code>methodForSelector: </code>来避免动态绑定节省的是大多是消息分发的时间。然而，这个方式只有在特定消息重复很多遍的时候使用，才会显著的节省时间，如上述显示的for循环。</p>
-<p>注意，<code>methodForSelector:</code>是由Cocoa框架的运行时系统提供的，并不是Objective-C语言本身的特性。</p>
+<p>注意，<code>methodForSelector:</code>是由Cocoa框架的运行时系统提供的，并不是Objective-C语言本身的特性。 </p>
 
         </div>
 
