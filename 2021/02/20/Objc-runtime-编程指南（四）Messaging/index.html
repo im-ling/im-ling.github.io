@@ -200,7 +200,7 @@
 <p><img src="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Art/messaging1.gif"></p>
 <p>当一个消息被发给一个对象，消息分发函数会跟随对象的isa指针指向的类结构的调度表格去寻找对应的方法选择器。如果找不到对应的方法选择器，<code>objc_msgSend</code>会跟随isa指针的类的superclass中的调度表格去寻找对应的方法选择器。连续的失败会让<code>objc_msgSend</code>不断在类的继承结构上寻找，直到找到NSObject.一旦找到对应的方法选择器，函数将调用调度表的方法，并将接收者的数据结构传给该方法。</p>
 <p>这就是方法实现在runtime时被选中的方式，或者用面向对象思想编程的话来说，方法被动态绑定到消息的过程。</p>
-<p>为了加速消息分发的过程，运行时系统会将使用过的方法选择器和其对应的方式实现地址进行缓存（cache）。这个缓存对于每个类来说都是分开的，它可以缓存类自己定义的或者继承的方法选择器。在调度表中查找之前，消息分发路由会现检查接收者的缓存（根据一个方法被调用一次后还可能被再次调用的理论）。如果方法选择器在缓存中，消息分发过程相对于一次函数调用仅会慢一丝。如果一个系统跑的足够久，让它的这些caches“热身以后”，几乎所有的消息将会在缓存中寻找到。当系统运行时，缓存会动态的增长以容纳新消息。</p>
+<p>为了加速消息分发的过程，运行时系统会将使用过的方法选择器和其对应的方式实现地址进行缓存（cache）。这个缓存对于每个类来说都是分开的，它可以缓存类自己定义的或者继承的方法选择器。在调度表中查找之前，消息分发路由会现检查接收者的缓存（根据一个方法被调用一次后还可能被再次调用的理论）。如果方法选择器在缓存中，消息分发过程相对于一次函数调用仅会慢一丝。如果一个系统跑的足够久，让它的这些caches“热身以后”，几乎所有的消息将会在缓存中寻找到。当系统运行时，缓存会动态的增长以容纳新消息。<br><br><br><br></p>
 <h2 id="Using-Hidden-Arguments-（使用隐藏参数）"><a href="#Using-Hidden-Arguments-（使用隐藏参数）" class="headerlink" title="Using Hidden Arguments （使用隐藏参数）"></a>Using Hidden Arguments （使用隐藏参数）</h2><p>当 <a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/documentation/objectivec/1456712-objc_msgsend" >objc_msgSend<i class="fas fa-external-link-alt"></i></a> 找到方法实现的程序时，它会将消息中所有的参数传递给这个参数。此外，它还会将两个隐藏参数传递给这段程序：</p>
 <ul>
 <li>接收者对象</li>
@@ -209,7 +209,7 @@
 <p>这些参数为每个方法实现提供了关于调用它的消息表达式之两部分的明确信息。它们之所以被成为隐藏的参数，是因为它们在定义方法的源代码中没有被声明。它们是代码被编译的时候插入到方法实现中去的。</p>
 <p>尽管这些参数没有被显示声明，源代码还是可以引用他们（正如源代码可以引用接收者对象的实例变量一样）。一个方法将接收者对象引用为<code>self</code>, 将它的选择器引用为<code>_cmd</code>. 在下面的例子中，<code>_cmd</code>引用为<code>strange</code>方法的方法选择器，<code>self</code>引用为<code>strange</code>消息的接收者。</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- strange </span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">id</span> target = getTheReceiver();</span><br><span class="line">    SEL method = getTheMethod();</span><br><span class="line">    <span class="keyword">if</span> (target == <span class="keyword">self</span> || method == _cmd)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    <span class="keyword">return</span> [target performSelector:method];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>两个参数中，<code>self</code>更有作用。事实上，这就是接收者对象的实例变量可于方法定义使用的方式。</p>
+<p>两个参数中，<code>self</code>更有作用。事实上，这就是接收者对象的实例变量可于方法定义使用的方式。<br><br><br><br></p>
 <h2 id="Getting-a-Method-Address-（获取方法地址）"><a href="#Getting-a-Method-Address-（获取方法地址）" class="headerlink" title="Getting a Method Address （获取方法地址）"></a>Getting a Method Address （获取方法地址）</h2><p>避免动态绑定的唯一方式就是获取一个方法的地址，将它作为一个函数直接调用它。 这可能在只有在极少的情形下适合：当一个特定的方法被连续调用很多次，而你想节省每次方法分发的开销时。</p>
 <p>当一个方法在<code>NSObject</code>类被定义时，你可以使用<code>methodForSelector:</code>去寻找指向这个方法的方法实现程序的指针，之后用这个指针去调用这段程序。接收<code>methodForSelector:</code>函数返回值的指针必须小心的转化为相对应的函数类型。参数类型和返回值类型都应该在转化中体现出。下面的示例展示了实现调用<code>setFilled:</code>方法的过程。</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> (*<span class="keyword">setter</span>)(<span class="keyword">id</span>, SEL, <span class="built_in">BOOL</span>);</span><br><span class="line"><span class="keyword">int</span> i;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">setter</span> = (<span class="keyword">void</span> (*)(<span class="keyword">id</span>, SEL, <span class="built_in">BOOL</span>))[target</span><br><span class="line">    methodForSelector:<span class="keyword">@selector</span>(setFilled:)];</span><br><span class="line"><span class="keyword">for</span> ( i = <span class="number">0</span> ; i &lt; <span class="number">1000</span> ; i++ )</span><br><span class="line">    <span class="keyword">setter</span>(targetList[i], <span class="keyword">@selector</span>(setFilled:), <span class="literal">YES</span>);</span><br></pre></td></tr></table></figure>
@@ -223,6 +223,21 @@
 
         
             <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/02/23/Objc-runtime-%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97%EF%BC%88%E4%BA%94%EF%BC%89Dynamic-Method-Resolution/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Objc-runtime-编程指南（五）Dynamic_Method_Resolution</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
                 
                 
                     <div class="article-next">
