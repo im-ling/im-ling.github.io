@@ -298,7 +298,43 @@
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="built_in">NSObject</span>=#&#125;</span><br></pre></td></tr></table></figure>
 <p><code>NSObject</code> 仅仅声明了一个实例变量，类型为Class的 <code>isa</code>。</p>
 <p><code>注意</code>，虽然当它们用于声明协议中的方法时，@encode()指令不会直接返回它们，运行时系统会使用 <code>表格6-2</code> 中列出的附加编码作为类型限定符。</p>
-<p>Table 6-2  Objective-C method encodings<br>|Code|Meaning|<br>|-|-|<br>|r|const|<br>|n|in|<br>|N|inout|<br>|o|out|<br>|O|bycopy|<br>|R|byref|<br>|V|oneway|</p>
+<p>Table 6-2  Objective-C method encodings</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>r</td>
+<td>const</td>
+</tr>
+<tr>
+<td>n</td>
+<td>in</td>
+</tr>
+<tr>
+<td>N</td>
+<td>inout</td>
+</tr>
+<tr>
+<td>o</td>
+<td>out</td>
+</tr>
+<tr>
+<td>O</td>
+<td>bycopy</td>
+</tr>
+<tr>
+<td>R</td>
+<td>byref</td>
+</tr>
+<tr>
+<td>V</td>
+<td>oneway</td>
+</tr>
+</tbody></table>
 
         </div>
 
