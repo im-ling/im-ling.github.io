@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Ling">
+    
+    <title>
+        
+            Objc-runtime-编程指南（六）Message_Forwarding |
+        
+        Ling&#39;s blog
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/l.svg">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#000000","avatar":"/images/avatar.png","favicon":"/images/l.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.0"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                Ling&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">Objc-runtime-编程指南（六）Message_Forwarding</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.png">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Ling</span>
+                        
+                            <span class="author-label">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-02-24 13:59:23
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/iOS/">iOS</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/iOS/">iOS</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/runtime/">runtime</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtForwarding.html#//apple_ref/doc/uid/TP40008048-CH105-SW1" >原文链接<i class="fas fa-external-link-alt"></i></a><br><br><br><br></p>
+<h2 id="Message-Forwarding"><a href="#Message-Forwarding" class="headerlink" title="Message Forwarding"></a>Message Forwarding</h2><p>给一个对象发送一个它处理不了的消息是个错误。然而，在宣布这是个错误之前，运行时系统给予这个对象处理消息第二次处理这个消息的机会。<br><br><br><br></p>
+<h2 id="Forwarding"><a href="#Forwarding" class="headerlink" title="Forwarding"></a>Forwarding</h2><p>如果你发送给对象一个它不能处理的消息，在报错之前，运行时会发送给这个对象一个 <code>forwardInvocation:</code> 消息，并携带一个 <code>NSInvocation</code> 对象作为消息的唯一参数 —— 这个 <code>NSInvocation</code> 对象是这个原本错误消息和它的参数的封装。</p>
+<p>你可以实现这个 <code>forwardInvocation:</code> 方法去对这个消息做一个默认处理，或者用其他的某种方式去避免这个报错。 正如方面名暗示的一样， <code>forwardInvocation:</code> 通常用来转发这个消息给其他的对象。</p>
+<p>为弄明白转发(<code>forwording</code>)的范围和意图，想想以下场景： 首先，假设你开始设计了一个能响应<code>negotiate</code>消息对象， 并且，你希望这个响应包含了另一个对象的一个响应。你可以通过在<code>negotiate</code>方法实现中传入一个<code>negotiate</code>消息给一个其他对象来轻易的实现这个对象。</p>
+<p>进一步思考一下，如果你希望你的对象响应<code>negotiate</code>消息的内容和另一个对象的响应实现是完全一样的。（在这种情况下，）你当然可让你的类继承这个类来得到这个方法，从而实现你的需求。然而，更可能的是，你不能以这种方式处理。（因为）关于你的类和实现<code>negotiate</code>的类在继承层级的不同分支，可能有很多合理的原因。</p>
+<p>尽管你的类不能继承 <code>negotiate</code> 方法，你仍可以通过简单的将消息传递给其他类的实例来实现这个方法来达到“借用”这个目的。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">id</span>)negotiate</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> ( [someOtherObject respondsTo:<span class="keyword">@selector</span>(negotiate)] )</span><br><span class="line">        <span class="keyword">return</span> [someOtherObject negotiate];</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过这种方式处理时期可能有些令人不愉悦，特别是如果有一系列消息你都想让你的对象传递给其他对象处理时。（这种情况下，）你需要在一个个方法实现中转化成你想借用的类来处理消息。此外，在你写一系列消息转发代码时，你不可能处理一些你根本意料不到的情况。而且，这种一系列的消息实现时依赖运行时的事件的，它可能在未来跟随新类、新方法的实现而改变。</p>
+<p>为解决这种问题，<code>forwardInvocation:</code> 提供了第二种方式，一个不那么特别的方案，一个动态的而不是静态的方案。 它是这么工作的：当一个对象因没有消息中的方法选择器对应的方法而不能响应这个消息时，运行时系统通过发送一个 <code>forwardInvocation:</code> 消息来通知这个对象。所有对象通过继承 <code>NSObject</code> 类获得 <code>forwardInvocation:</code> 方法。然而，<code>NSObject</code> 对 <code>forwardInvocation:</code> 的实现仅仅只是简单的调用 <code>doesNotRecognizeSelector:</code> . 你可以通过重写 <code>NSObject</code> 的 <code>forwardInvocation:</code> 方法，将消息转发给其他对象。</p>
+<p>要转发一个消息，所有 <code>forwardInvocation:</code> 方法必须:</p>
+<ul>
+<li>确定消息发向何处</li>
+<li>将其与原始参数一起发往到目的地</li>
+</ul>
+<p>可用 <code>invokeWithTarget:</code> 发送消息:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)forwardInvocation:(<span class="built_in">NSInvocation</span> *)anInvocation</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> ([someOtherObject respondsToSelector: [anInvocation selector]])</span><br><span class="line">        [anInvocation invokeWithTarget:someOtherObject];</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        [<span class="keyword">super</span> forwardInvocation:anInvocation];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>转发消息的返回值会返回给原始的发送者。所有类型的返回值都可以给发送者，包括<code>id</code>类型，结构体(structure)类型以及双精度浮点（double-precision floating-point）类型的数字。</p>
+<p><code>forwardInvocation:</code> 方法可以作为不被识别消息的分发中心，将这些消息分发给不同的接收者。它也可以作为一个中转站，将所有消息发向同一目的地。它还可以将一个消息翻译成另一个，又或者简单的“吞噬”这些消息，既不反应这些消息，也不报错。此外 <code>forwardInvocation:</code> 还能将多个消息合并，用一个反应来响应。 具体 <code>forwardInvocation:</code> 怎么做取决于它的实现者。但是，它在转发链中提供的链接对象的机会，给程序设计提供了更多的可能性。</p>
+<p><code>注意:</code> 方法 <code>forwardInvocation:</code> 仅在接收者对象调用不存在的方法时才会起作用。例如，如果你想我你的对象转发 <code>negotiate</code> 消息给其他对象，你的对象不可以有它自己的<code>negotiate</code> 方法。 如果对象有 <code>negotiate</code> 方法，这个消息永远不会调用到 <code>forwardInvocation:</code> 。</p>
+<p>关于转发和调用(<code>invocations</code>)的更多信息，请参见 Foundation 框架参考 的 <code>NSInvocation</code> 类规范。</p>
+<br>
+<br>
+
+<h2 id="Forwarding-and-Multiple-Inheritance-（转发和多继承）"><a href="#Forwarding-and-Multiple-Inheritance-（转发和多继承）" class="headerlink" title="Forwarding and Multiple Inheritance （转发和多继承）"></a>Forwarding and Multiple Inheritance （转发和多继承）</h2><p>转发效仿了继承，可以在Objective-C程序中用来实现一部分多继承的效果。 如图5-1所示，一个对象通过转发的方式响应一个消息，像是向另一个类借用或者“继承”了一个方法实现。</p>
+<p>Figure 5-1  Forwarding</p>
+<p><img src="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Art/forwarding.gif" alt="img"></p>
+<p>在此示意图中，一个Warrior类的实例转发了一个 <code>negotiate</code> 消息给一个Diplomat类的实例。这个Warrior将会像Diplomat一样进行交涉(<code>negotiate</code>)。 似乎Warrior响应了 <code>negotiate</code> 消息，而且事实上他也确实也做了响应（尽管实际是一个Diplomat做了真正的工作）。</p>
+<p>因此转发消息的对象从继承层级的两个分支“继承”了方法 —— 它自己的分支和响应消息对象的分支。在上述示例中， Warrior 表现的像继承了 Diplomat 和它自己的父类。</p>
+<p>转发提供了大多数你想要的多继承的典型特性。然而，这两者还是有很大区别的：多继承在一个对象中结合了不同的能力。它倾向于（构建）大的，多接口的对象。转发，换个方式说，将职责分发给完全不同的对象。它将问题分解给更小的对象，但给消息发送者以透明的方式关联这些对象。<br><br><br><br></p>
+<h2 id="Surrogate-Objects-（代理对象）"><a href="#Surrogate-Objects-（代理对象）" class="headerlink" title="Surrogate Objects （代理对象）"></a>Surrogate Objects （代理对象）</h2><p>转发不仅模仿了多继承，它还使得开发一个轻量级的对象表示或者“覆盖”更多的对象成为可能。（代理对象作为）代理代替了其他的对象，并向其发送消息。</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjectiveC/Introduction/introObjectiveC.html#//apple_ref/doc/uid/TP30001163" >The Objective-C Programming Language<i class="fas fa-external-link-alt"></i></a>中“Remote Messaging”讨论的代理(<code>proxy</code>)就是这么一个代理（<code>surrogate</code>）。一个代理负责处理转发消息给一个远程接收者的所有细节，确保通过连接复制和找回参数值，等等。但它不会更进一步做更多事情；他不会复制远程对象的功能，而是仅仅简单的给予远程对象一个本地地址，一个它可以接收其他程序消息的地方。</p>
+<p>其他方式的代理也是可以的。例如，你有一个对象处理很多的数据 —— 或许它在创建一个复杂的图像，又或许它在读硬盘中某个文件的内容。 创建这个对象可能是耗时的，所以你倾向懒加载它 —— 当它被需要或者系统暂时空闲时（才会创建它）。 于此同时，你又需要一个给这个对象一个占位让程序中其他对象正常运转。</p>
+<p>在这种情况下，你可以最开始就创建一个轻量级的代理代理它，而不是整个对象。这个（代理）对象可以做一些它自己的事情，如回复一些关于数据的消息，但它的主要功能是为这个大的对象占位。当时机成熟时，（代理）将消息转发给它（这个大的对象）。当代理对象的 <code>forwardInvocation:</code> 接收一个需要转发给其他对象的消息时，代理会先确认转发对象是否存在，不存在就会创建它。所有传递给大对象的消息都要经过代理，因此，就程序的其他部分而言，代理和这个大对象是等价的。</p>
+<br>
+<br>
+
+<h2 id="Forwarding-and-Inheritance-（转发和继承）"><a href="#Forwarding-and-Inheritance-（转发和继承）" class="headerlink" title="Forwarding and Inheritance （转发和继承）"></a>Forwarding and Inheritance （转发和继承）</h2><p>尽管转发效仿了继承，但 <code>NSObject</code> 永不会混淆这两者。 类似于 <code>respondsToSelector：</code> 和 <code>isKindOfClass:</code> 这样的方法，仅从继承层级上看，两者永不会在转发链上出现。 例如， 一个Warrior对象当被问到是否响应 <code>negotiate</code> 消息时，</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( [aWarrior respondsToSelector:<span class="keyword">@selector</span>(negotiate)] )</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p>得到的回复是 <code>NO</code>, 尽管它可以不出错的接收 <code>negotiate</code> 消息并响应，某种意义上，它是将消息转发给一个Diplomat。（见图5-1）</p>
+<p>在大多数情况下，<code>NO</code> 是正确答案。但有时候<code>NO</code>不是正确答案。如果你用转发去建立一个代理对象或者去扩展某个类的能力，转发机制就应该和继承一样透明了。如果你希望你的对象表现的真的像继承了其转发消息的对象，你需要重新实现方法 <code>respondsToSelector:</code> 和 <code>isKindOfClass:</code> 来包含你的转发逻辑：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)respondsToSelector:(SEL)aSelector</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> ( [<span class="keyword">super</span> respondsToSelector:aSelector] )</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">/* Here, test whether the aSelector message can     *</span></span><br><span class="line"><span class="comment">         * be forwarded to another object and whether that  *</span></span><br><span class="line"><span class="comment">         * object can respond to it. Return YES if it can.  */</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除了 <code>respondsToSelector:</code> 和 <code>isKindOfClass:</code> ，方法 <code>instancesRespondToSelector:</code> 也应该有转发逻辑。如果使用了协议， <code>conformsToProtocol:</code> 方法也是如此。同样的，如果一个对象转发其接收的远程消息，它应该实现一个 <code>methodSignatureForSelector:</code> 来返回<code>这个最终响应转发消息的方法</code>的准确信息; 例如，一个对象转发一个消息给它的代理，你应该像以下方式实现 <code>methodSignatureForSelector:</code> :</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSMethodSignature</span>*)methodSignatureForSelector:(SEL)selector</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSMethodSignature</span>* signature = [<span class="keyword">super</span> methodSignatureForSelector:selector];</span><br><span class="line">    <span class="keyword">if</span> (!signature) &#123;</span><br><span class="line">       signature = [surrogate methodSignatureForSelector:selector];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> signature;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>你可以考虑将转发机制放到一处私有代码中，让这私有代码包含所有的这些转发方法(包括<code>forwardInvocation:</code>)，从而调用它们。</p>
+<p><code>注意：</code>这是一个高级技巧，仅在其他解决方式无法作用的时候适用。转发并不倾向于去取代继承。如果你实在需要使用这个技术的话，请确保你完全理解这个转发对象和被转发的目的对象的作用。</p>
+<p>本篇提及的方法均在 <code>Foundation框架参考</code> 的 <a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/LegacyTechnologies/WebObjects/WebObjects_3.5/Reference/Frameworks/ObjC/Foundation/Classes/NSObject/Description.html#//apple_ref/occ/cl/NSObject" >NSObject<i class="fas fa-external-link-alt"></i></a> 类声明有详细介绍。 关于 <code>invokeWithTarget:</code> 方法的更多信息，请参考 <code>Foundation 框架参考</code> 的 <a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/documentation/foundation/nsinvocation" >NSInvocation<i class="fas fa-external-link-alt"></i></a> 类声明。</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/02/23/Objc-runtime-%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97%EF%BC%88%E4%BA%94%EF%BC%89Dynamic-Method-Resolution/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Objc-runtime-编程指南（五）Dynamic_Method_Resolution</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Ling</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.0</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+<script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/header-shrink.js"></script><script src="/js/back2top.js"></script><script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>
