@@ -125,7 +125,7 @@
                     <div class="author">
                         <span class="name">Ling</span>
                         
-                            <span class="author-label">Lv1</span>
+                            <span class="author-label">Lv2</span>
                         
                     </div>
                     <div class="meta-info">
@@ -175,9 +175,9 @@
 
         <div class="article-content markdown-body">
             <h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html#//apple_ref/doc/uid/TP40008048-CH100-SW1" >原文链接<i class="fas fa-external-link-alt"></i></a><br><br><br><br></p>
-<h2 id="Type-Encodings"><a href="#Type-Encodings" class="headerlink" title="Type Encodings"></a>Type Encodings</h2><p>为了帮助运行时系统，编译器会将将每个方法的参数和返回值编译成一个c的字符串与方法选择器的字符串关联。这种编译器使用编码方案在其他环境中也很适用，因此可以通过 <code>@encode()</code> 编译器指令来公开使用。对于给定的一个特定类型, <code>@encode()</code> 会返回一个string来编码这个类型。 这个类型可以是像 <code>int</code> 的基础类型，可以是指针，也可以是带标记的结构或者联合体，又或者是一个类名 —— 任何类型！ 事实上，是可以被 C <code>sizeof()</code> 操作符作用的所有类型。</p>
+<h2 id="Type-Encodings"><a href="#Type-Encodings" class="headerlink" title="Type Encodings"></a>Type Encodings</h2><p>为了帮助运行时系统，编译器会将将每个方法的参数和返回值编译成一个C的字符串与方法选择器的字符串关联。这种编译器使用编码方案在其他环境中也很适用，因此可以通过 <code>@encode()</code> 编译器指令来公开使用。对于给定的一个特定类型, <code>@encode()</code> 会返回一个string来编码这个类型。 这个类型可以是像 <code>int</code> 的基础类型，可以是指针，也可以是带标记的结构或者联合体，又或者是一个类名 —— 任何类型！ 事实上，是可以被 C的 <code>sizeof()</code> 操作符作用的所有类型。</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *buf1 = <span class="keyword">@encode</span>(<span class="keyword">int</span> **);</span><br><span class="line"><span class="keyword">char</span> *buf2 = <span class="keyword">@encode</span>(<span class="keyword">struct</span> key);</span><br><span class="line"><span class="keyword">char</span> *buf3 = <span class="keyword">@encode</span>(Rectangle);</span><br></pre></td></tr></table></figure>
-<p>下面的表格列举了类型编码。请注意，它们中的许多与您出于归档或分发目的而对对象进行编码时使用的代码重叠。然而（还需要注意），这儿有一些编码是你在写编码器时不能使用的；还有一些你在编写一个编码器想使用的，但不是由 <code>@encode()</code> 的编码。（在归档/分发时编码对象时，请参见 <code>Foundation 框架参考</code>的 <a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/LegacyTechnologies/WebObjects/WebObjects_3.5/Reference/Frameworks/ObjC/Foundation/Classes/NSCoder/Description.html#//apple_ref/occ/cl/NSCoder" >NSCoder<i class="fas fa-external-link-alt"></i></a> 类声明获取更纤细的信息。）</p>
+<p>下面的表格列举了类型编码。请注意，它们中的许多与您出于归档或分发目的而对对象进行编码(encoding)时使用的编码(codes)重叠。然而（还需要注意），这儿有一些编码是你在写编码器时不能使用的；还有一些你在编写一个编码器想使用的，但不是由 <code>@encode()</code> 生成的编码。（在归档/分发时编码对象时，请参见 <code>Foundation 框架参考</code>的 <a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/LegacyTechnologies/WebObjects/WebObjects_3.5/Reference/Frameworks/ObjC/Foundation/Classes/NSCoder/Description.html#//apple_ref/occ/cl/NSCoder" >NSCoder<i class="fas fa-external-link-alt"></i></a> 类声明获取更纤细的信息。）</p>
 <p>Table 6-1  Objective-C type encodings</p>
 <table>
 <thead>
@@ -342,6 +342,21 @@
 
         
             <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/02/25/Objc-runtime-%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97%EF%BC%88%E5%85%AB%EF%BC%89Declared-Properties/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Objc-runtime-编程指南（八）Declared Properties</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
                 
                 
                     <div class="article-next">

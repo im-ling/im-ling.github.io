@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Ling">
+    
+    <title>
+        
+            Objc-runtime-编程指南（八）Declared Properties |
+        
+        Ling&#39;s blog
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/l.svg">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#000000","avatar":"/images/avatar.png","favicon":"/images/l.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.0"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                Ling&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">Objc-runtime-编程指南（八）Declared Properties</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.png">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Ling</span>
+                        
+                            <span class="author-label">Lv2</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-02-25 10:48:37
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/iOS/">iOS</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/iOS/">iOS</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/runtime/">runtime</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW1" >原文链接<i class="fas fa-external-link-alt"></i></a><br><br><br><br></p>
+<h2 id="Declared-Properties-属性声明"><a href="#Declared-Properties-属性声明" class="headerlink" title="Declared Properties 属性声明"></a>Declared Properties 属性声明</h2><p>当编译器遇到属性声明时(参见 <a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjectiveC/Introduction/introObjectiveC.html#//apple_ref/doc/uid/TP30001163" >The Objective-C Programming Language<i class="fas fa-external-link-alt"></i></a> 的 <a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjectiveC/Chapters/ocProperties.html#//apple_ref/doc/uid/TP30001163-CH17" >Declared Properties<i class="fas fa-external-link-alt"></i></a> 篇章)，它会给关联的封装对象、类别或者是协议生成一份描述性的元数据。 您可以用一些函数来访问此元数据，这些函数支持以下功能：在类或协议上按名称查找属性，获取一个属性的 <code>@encode</code> 字符串, 以C字符串数组的形式拷贝属性列表。对于每个类和协议来说，都可以使用声明的属性列表。<br><br><br><br></p>
+<h2 id="Property-Type-and-Functions-属性类型和函数"><a href="#Property-Type-and-Functions-属性类型和函数" class="headerlink" title="Property Type and Functions 属性类型和函数"></a>Property Type and Functions 属性类型和函数</h2><p><code>Property</code> 结构体定义了属性描述的不透明句柄。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_property *Property;</span><br></pre></td></tr></table></figure>
+<p>您可以使用函数class_copyPropertyList和protocol_copyPropertyList分别检索类（包括加载过的分类）和协议关联的属性数组：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">objc_property_t *class_copyPropertyList(Class cls, <span class="keyword">unsigned</span> <span class="keyword">int</span> *outCount)</span><br><span class="line">objc_property_t *protocol_copyPropertyList(Protocol *proto, <span class="keyword">unsigned</span> <span class="keyword">int</span> *outCount)</span><br></pre></td></tr></table></figure>
+<p>例如，给定以下类声明：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Lender</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">    <span class="keyword">float</span> alone;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@property</span> <span class="keyword">float</span> alone;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>你可以这样获取属性列表：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">id</span> LenderClass = objc_getClass(<span class="string">&quot;Lender&quot;</span>);</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> outCount;</span><br><span class="line">objc_property_t *properties = class_copyPropertyList(LenderClass, &amp;outCount);</span><br></pre></td></tr></table></figure>
+<p>你可以用函数 <code>property_getName</code> 去找到属性的名称：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *property_getName(objc_property_t property)</span><br></pre></td></tr></table></figure>
+<p>你可以用函数 <code>class_getProperty</code> / <code>protocol_getProperty</code> 和类/协议中给定名称来相对应获取一个属性的引用：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">objc_property_t class_getProperty(Class cls, <span class="keyword">const</span> <span class="keyword">char</span> *name)</span><br><span class="line">objc_property_t protocol_getProperty(Protocol *proto, <span class="keyword">const</span> <span class="keyword">char</span> *name, <span class="built_in">BOOL</span> isRequiredProperty, <span class="built_in">BOOL</span> isInstanceProperty)</span><br></pre></td></tr></table></figure>
+<p>你可以用 <code>property_getAttributes</code> 函数获取一个属性的名称和 <code>@encode</code> 的编码类型字符串。 关于编码类型字符串的更多信息，参考 <a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html#//apple_ref/doc/uid/TP40008048-CH100-SW1" >Type Encodings<i class="fas fa-external-link-alt"></i></a>; 关于这个字符串的更多信息，参见 <a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW6" >Property Type String<i class="fas fa-external-link-alt"></i></a> 和 <a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW5" >Property Attribute Description Examples<i class="fas fa-external-link-alt"></i></a>。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *property_getAttributes(objc_property_t property)</span><br></pre></td></tr></table></figure>
+<p>结合以上内容，你可以用以下代码打印一个类的所有属性：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">id</span> LenderClass = objc_getClass(<span class="string">&quot;Lender&quot;</span>);</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> outCount, i;</span><br><span class="line">objc_property_t *properties = class_copyPropertyList(LenderClass, &amp;outCount);</span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; outCount; i++) &#123;</span><br><span class="line">    objc_property_t property = properties[i];</span><br><span class="line">    fprintf(stdout, <span class="string">&quot;%s %s\n&quot;</span>, property_getName(property), property_getAttributes(property));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<br>
+<br>
+
+<h2 id="Property-Type-String-属性类型字符串"><a href="#Property-Type-String-属性类型字符串" class="headerlink" title="Property Type String 属性类型字符串"></a>Property Type String 属性类型字符串</h2><p>你可以使用 <code>property_getAttributes</code> 函数来获取这这个属性的名称、 <code>@encode</code> 类型，以及其他内容。</p>
+<p>属性类型字符串以 ‘<code>T</code> 加上 <code>@encode</code> type和一个逗号’ 开头，以 ‘<code>V</code>加上实例变量的名称’ 结尾。 两者之间，属性由以下描述符指定，用逗号分隔:</p>
+<p>Table 7-1  Declared property type encodings</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R</td>
+<td>The property is read-only (<code>readonly</code>).</td>
+</tr>
+<tr>
+<td>C</td>
+<td>The property is a copy of the value last assigned (<code>copy</code>).</td>
+</tr>
+<tr>
+<td>&amp;</td>
+<td>The property is a reference to the value last assigned (<code>retain</code>).</td>
+</tr>
+<tr>
+<td>N</td>
+<td>The property is non-atomic (<code>nonatomic</code>).</td>
+</tr>
+<tr>
+<td>G&lt;name&gt;</td>
+<td>The property defines a custom getter selector name. The name follows the <code>G</code> (for example, <code>GcustomGetter</code>,).</td>
+</tr>
+<tr>
+<td>S&lt;name&gt;</td>
+<td>The property defines a custom setter selector name. The name follows the <code>S</code> (for example, <code>ScustomSetter:</code>,).</td>
+</tr>
+<tr>
+<td>D</td>
+<td>The property is dynamic (<code>@dynamic</code>).</td>
+</tr>
+<tr>
+<td>W</td>
+<td>The property is a weak reference (<code>__weak</code>).</td>
+</tr>
+<tr>
+<td>P</td>
+<td>The property is eligible for garbage collection.</td>
+</tr>
+<tr>
+<td>t&lt;encoding&gt;</td>
+<td>Specifies the type using old-style encoding.</td>
+</tr>
+</tbody></table>
+<p>关于示例，参见 <a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW5" >Property Attribute Description Examples<i class="fas fa-external-link-alt"></i></a>。</p>
+<br>
+<br>
+
+<h2 id="Property-Attribute-Description-Examples"><a href="#Property-Attribute-Description-Examples" class="headerlink" title="Property Attribute Description Examples"></a>Property Attribute Description Examples</h2><p>给定这些定义：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> FooManChu &#123; FOO, MAN, CHU &#125;;</span><br><span class="line"><span class="keyword">struct</span> YorkshireTeaStruct &#123; <span class="keyword">int</span> pot; <span class="keyword">char</span> lady; &#125;;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> YorkshireTeaStruct YorkshireTeaStructType;</span><br><span class="line"><span class="keyword">union</span> MoneyUnion &#123; <span class="keyword">float</span> alone; <span class="keyword">double</span> down; &#125;;</span><br></pre></td></tr></table></figure>
+<p>下表显示了示例属性声明以及 <code>property_getAttributes</code> 函数返回的相应字符串:</p>
+<table>
+<thead>
+<tr>
+<th>Property declaration</th>
+<th>Property description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@property char charDefault;</td>
+<td>Tc,VcharDefault</td>
+</tr>
+<tr>
+<td>@property double doubleDefault;</td>
+<td>Td,VdoubleDefault</td>
+</tr>
+<tr>
+<td>@property enum FooManChu enumDefault;</td>
+<td>Ti,VenumDefault</td>
+</tr>
+<tr>
+<td>@property float floatDefault;</td>
+<td>Tf,VfloatDefault</td>
+</tr>
+<tr>
+<td>@property int intDefault;</td>
+<td>Ti,VintDefault</td>
+</tr>
+<tr>
+<td>@property long longDefault;</td>
+<td>Tl,VlongDefault</td>
+</tr>
+<tr>
+<td>@property short shortDefault;</td>
+<td>Ts,VshortDefault</td>
+</tr>
+<tr>
+<td>@property signed signedDefault;</td>
+<td>Ti,VsignedDefault</td>
+</tr>
+<tr>
+<td>@property struct YorkshireTeaStruct structDefault;</td>
+<td>T{YorkshireTeaStruct=”pot”i”lady”c},VstructDefault</td>
+</tr>
+<tr>
+<td>@property YorkshireTeaStructType typedefDefault;</td>
+<td>T{YorkshireTeaStruct=”pot”i”lady”c},VtypedefDefault</td>
+</tr>
+<tr>
+<td>@property union MoneyUnion unionDefault;</td>
+<td>T(MoneyUnion=”alone”f”down”d),VunionDefault</td>
+</tr>
+<tr>
+<td>@property unsigned unsignedDefault;</td>
+<td>TI,VunsignedDefault</td>
+</tr>
+<tr>
+<td>@property int (*functionPointerDefault)(char *);</td>
+<td>T^?,VfunctionPointerDefault</td>
+</tr>
+<tr>
+<td>@property id idDefault;<br/>Note: the compiler warns: “no ‘assign’, ‘retain’, or ‘copy’ attribute is specified - ‘assign’ is assumed”</td>
+<td>T@,VidDefault</td>
+</tr>
+<tr>
+<td>@property int *intPointer;</td>
+<td>T^i,VintPointer</td>
+</tr>
+<tr>
+<td>@property void *voidPointerDefault;</td>
+<td>T^v,VvoidPointerDefault</td>
+</tr>
+<tr>
+<td>@property int intSynthEquals;<br/>In the implementation block:<br/> @synthesize intSynthEquals=_intSynthEquals;</td>
+<td>Ti,V_intSynthEquals</td>
+</tr>
+<tr>
+<td>@property(getter=intGetFoo, setter=intSetFoo:) int intSetterGetter;</td>
+<td>Ti,GintGetFoo,SintSetFoo:,VintSetterGetter</td>
+</tr>
+<tr>
+<td>@property(readonly) int intReadonly;</td>
+<td>Ti,R,VintReadonly</td>
+</tr>
+<tr>
+<td>@property(getter=isIntReadOnlyGetter, readonly) int intReadonlyGetter;</td>
+<td>Ti,R,GisIntReadOnlyGetter</td>
+</tr>
+<tr>
+<td>@property(readwrite) int intReadwrite;</td>
+<td>Ti,VintReadwrite</td>
+</tr>
+<tr>
+<td>@property(assign) int intAssign;</td>
+<td>Ti,VintAssign</td>
+</tr>
+<tr>
+<td>@property(retain) id idRetain;</td>
+<td>T@,&amp;,VidRetain</td>
+</tr>
+<tr>
+<td>@property(copy) id idCopy;</td>
+<td>T@,C,VidCopy</td>
+</tr>
+<tr>
+<td>@property(nonatomic) int intNonatomic;</td>
+<td>Ti,VintNonatomic</td>
+</tr>
+<tr>
+<td>@property(nonatomic, readonly, copy) id idReadonlyCopyNonatomic;</td>
+<td>T@,R,C,VidReadonlyCopyNonatomic</td>
+</tr>
+<tr>
+<td>@property(nonatomic, readonly, retain) id idReadonlyRetainNonatomic;</td>
+<td>T@,R,&amp;,VidReadonlyRetainNonatomic</td>
+</tr>
+</tbody></table>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/02/25/Objc-runtime-%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97%EF%BC%88%E4%B9%9D%EF%BC%89Revision-History/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Objc-runtime-编程指南（九）Revision History</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/02/24/Objc-runtime-%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97%EF%BC%88%E4%B8%83%EF%BC%89Type-Encodings/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Objc-runtime-编程指南（七）Type Encodings</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Ling</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.0</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+<script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/header-shrink.js"></script><script src="/js/back2top.js"></script><script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>
