@@ -9,7 +9,7 @@
     
     <title>
         
-            Objc-runtime-编程指南（九）Revision History |
+            千行代码构建个人文本编辑器（零）Build Your Own Text Editor |
         
         Ling&#39;s blog
     </title>
@@ -113,7 +113,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Objc-runtime-编程指南（九）Revision History</span>
+            <span class="title-hover-animation">千行代码构建个人文本编辑器（零）Build Your Own Text Editor</span>
         </div>
 
         
@@ -131,7 +131,7 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-02-25 11:58:09
+        <i class="fas fa-edit"></i>&nbsp;2021-02-26 16:08:34
     </span>
     
         <span class="article-categories article-meta-item">
@@ -139,7 +139,7 @@
             <ul>
                 
                     <li>
-                        <a href="/categories/iOS/">iOS</a>&nbsp;
+                        <a href="/categories/C/">C</a>&nbsp;
                     </li>
                 
             </ul>
@@ -151,11 +151,11 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/iOS/">iOS</a>&nbsp;
+                        <a href="/tags/C/">C</a>&nbsp;
                     </li>
                 
                     <li>
-                        | <a href="/tags/runtime/">runtime</a>&nbsp;
+                        | <a href="/tags/Fun/">Fun</a>&nbsp;
                     </li>
                 
             </ul>
@@ -174,32 +174,24 @@
         
 
         <div class="article-content markdown-body">
-            <h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a class="link"   target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/RevisionHistory.html#//apple_ref/doc/uid/TP40008048-CH99-SW1" >原文链接<i class="fas fa-external-link-alt"></i></a><br><br><br><br></p>
-<h2 id="Document-Revision-History-文档版本历史"><a href="#Document-Revision-History-文档版本历史" class="headerlink" title="Document Revision History 文档版本历史"></a>Document Revision History 文档版本历史</h2><p>下表介绍了 <code>Objective-C Runtime Programming Guide</code> （各版本的）更改记录.</p>
-<table>
-<thead>
-<tr>
-<th>Date</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>2009-10-19</td>
-<td>做了一些编辑上的小修改。</td>
-</tr>
-<tr>
-<td>2009-07-14</td>
-<td>完成 property_getAttributes 描述的类型表。</td>
-</tr>
-<tr>
-<td>2009-02-04</td>
-<td>校正一些排版上的问题。</td>
-</tr>
-<tr>
-<td>2008-11-19</td>
-<td>针对 <code>Objective-C 2.0 运行时支持库</code> ， 添加新的说明文档。</td>
-</tr>
-</tbody></table>
+            <h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a class="link"   target="_blank" rel="noopener" href="https://viewsourcecode.org/snaptoken/kilo/" >原文链接<i class="fas fa-external-link-alt"></i></a><br><br><br><br></p>
+<h2 id="Build-Your-Own-Text-Editor"><a href="#Build-Your-Own-Text-Editor" class="headerlink" title="Build Your Own Text Editor"></a>Build Your Own Text Editor</h2><p>欢迎！这是一本指导手册，目的向您展示如何在C中构建文本编辑器。</p>
+<p>本文要写的文本编辑器是<a class="link"   target="_blank" rel="noopener" href="http://antirez.com/news/108" >antirez’s kilo<i class="fas fa-external-link-alt"></i></a>，但这里进行一定的修改。此文本编辑器是一个约有1000行C文件，不依赖任何东西，实现了最小的编辑器中使用的所有基本功能，还包括语法高亮显示和搜索功能。</p>
+<p>本手册将分 <strong>184个步骤</strong> 逐步引导您构建编辑器。每一步，您都将增删查改几行代码。对于大多数步骤中，您都可以通过编译和运行程序来 <strong>观察</strong> 所做的更改。</p>
+<p>我会解释其中的每个步骤，有时会进行详细说明。请你随意浏览或跳过，因为本文的目的不是其他，主要是<strong>从头开始构建文本编辑器</strong>！您在此过程中学到的任何东西都是额外的，而且你仅需通过输入代码更改并观察结果就可以学到很多东西。</p>
+<p>请参阅 <a class="link"   target="_blank" rel="noopener" href="https://viewsourcecode.org/snaptoken/kilo/08.appendices.html" >附录<i class="fas fa-external-link-alt"></i></a>，以获取有关教程本身的更多信息（包括遇到困难时应采取的措施以及在何处获得帮助）。</p>
+<p>如果您准备开始了，请立刻转到 <a class="link"   target="_blank" rel="noopener" href="https://viewsourcecode.org/snaptoken/kilo/01.setup.html" >第1章<i class="fas fa-external-link-alt"></i></a> 吧！</p>
+<p>目录：</p>
+<ol>
+<li><a class="link"   target="_blank" rel="noopener" href="https://viewsourcecode.org/snaptoken/kilo/01.setup.html" >Setup<i class="fas fa-external-link-alt"></i></a> 环境设置</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://viewsourcecode.org/snaptoken/kilo/02.enteringRawMode.html" >Entering raw mode<i class="fas fa-external-link-alt"></i></a> 原生输入模式</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://viewsourcecode.org/snaptoken/kilo/03.rawInputAndOutput.html" >Raw input and output<i class="fas fa-external-link-alt"></i></a> 原始输入和输出</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://viewsourcecode.org/snaptoken/kilo/04.aTextViewer.html" >A text viewer<i class="fas fa-external-link-alt"></i></a> 一个文本查看器</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://viewsourcecode.org/snaptoken/kilo/05.aTextEditor.html" >A text editor<i class="fas fa-external-link-alt"></i></a> 一个文本编辑器</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://viewsourcecode.org/snaptoken/kilo/06.search.html" >Search<i class="fas fa-external-link-alt"></i></a> 搜索</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://viewsourcecode.org/snaptoken/kilo/07.syntaxHighlighting.html" >Syntax highlighting<i class="fas fa-external-link-alt"></i></a> 语法高亮</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://viewsourcecode.org/snaptoken/kilo/08.appendices.html" >Appendices<i class="fas fa-external-link-alt"></i></a> 附录</li>
+</ol>
 
         </div>
 
@@ -208,29 +200,14 @@
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2021/02/26/%E5%8D%83%E8%A1%8C%E4%BB%A3%E7%A0%81%E6%9E%84%E5%BB%BA%E4%B8%AA%E4%BA%BA%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8%EF%BC%88%E9%9B%B6%EF%BC%89Build-Your-Own-Text-Editor/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">千行代码构建个人文本编辑器（零）Build Your Own Text Editor</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/2021/02/25/Objc-runtime-%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97%EF%BC%88%E5%85%AB%EF%BC%89Declared-Properties/"
+                           href="/2021/02/25/Objc-runtime-%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97%EF%BC%88%E4%B9%9D%EF%BC%89Revision-History/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">Objc-runtime-编程指南（八）Declared Properties</span>
+                                <span class="post-nav-title-item">Objc-runtime-编程指南（九）Revision History</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">
