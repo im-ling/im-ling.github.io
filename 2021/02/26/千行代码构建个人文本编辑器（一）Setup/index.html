@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Ling">
+    
+    <title>
+        
+            千行代码构建个人文本编辑器（一）Setup |
+        
+        Ling&#39;s blog
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/l.svg">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#000000","avatar":"/images/avatar.png","favicon":"/images/l.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.0"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                Ling&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">千行代码构建个人文本编辑器（一）Setup</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.png">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Ling</span>
+                        
+                            <span class="author-label">Lv2</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-02-26 17:04:10
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/C/">C</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/C/">C</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Fun/">Fun</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a class="link"   target="_blank" rel="noopener" href="https://viewsourcecode.org/snaptoken/kilo/01.setup.html" >原文链接<i class="fas fa-external-link-alt"></i></a><br><br><br><br></p>
+<h2 id="Setup"><a href="#Setup" class="headerlink" title="Setup"></a>Setup</h2><p><img src="https://viewsourcecode.org/snaptoken/kilo/i/lego-step-one.png"><br>呃呃呃，第1步。您不喜欢重零开始，是吗？对于你要搭建的一个整个的宫殿，你只想搭最后一块砖？</p>
+<p>抱歉，我们在做一个<em>计算机程序</em>，计算机程序的第1步可能是很复杂的。有时候还令人沮丧的。您必须确保为使用的编程语言设置了环境，并且必须弄清楚如何在该环境中编译和运行你的程序。</p>
+<p>幸运的是，我们正在构建的程序不依赖于任何外部库，因此您只需要C编译器及其附带的标准库就可以了。 （我们还将使用 <code>make</code> 程序。）要检查您是否安装了C编译器，请尝试在命令行上运行<code>cc --version</code>（cc代表“ C Compiler”）。要检查您是否拥有 <code>make</code> ，请尝试运行<code>make -v</code>。</p>
+<br>
+<br>
+
+<h2 id="How-to-install-a-C-compiler…-怎么安装C编译器"><a href="#How-to-install-a-C-compiler…-怎么安装C编译器" class="headerlink" title="How to install a C compiler… 怎么安装C编译器"></a>How to install a C compiler… 怎么安装C编译器</h2><h3 id="…in-Windows"><a href="#…in-Windows" class="headerlink" title="…in Windows"></a>…in Windows</h3><p>您 <strong>需要在Windows中安装某种Linux环境</strong>。这是因为我们的文本编辑器使用&lt;termios.h&gt;t头文件与终端进行了底层交互，而Windows上不提供此头文件。我建议使用 <a class="link"   target="_blank" rel="noopener" href="https://msdn.microsoft.com/en-us/commandline/wsl/about" >Bash on Windows<i class="fas fa-external-link-alt"></i></a> 或者<a class="link"   target="_blank" rel="noopener" href="https://www.cygwin.com/" >Cygwin<i class="fas fa-external-link-alt"></i></a>。</p>
+<p><strong>Bash on Windows</strong> ：仅适用于64位Windows10。请参阅 <a class="link"   target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/wsl/install-win10" >安装指南<i class="fas fa-external-link-alt"></i></a>。安装后，需要进入Linux环境时，请在命令行中运行 <code>bash</code> 命令。在 <code>bash</code> 内，运行 <code>sudo apt-get install gcc make</code> 来安装GNU编译器集合和 <code>make</code> 程序。如果 <code>sudo</code> 需要很长时间才能执行任何操作，则你可能要 <a class="link"   target="_blank" rel="noopener" href="https://superuser.com/questions/1108197/sudo-on-windows-10-linux-subsystem-cannot-resolve-local-machine-name" >修复你/etc文件夹下hosts文件<i class="fas fa-external-link-alt"></i></a>。</p>
+<p><strong>Cygwin</strong>：从 <a class="link"   target="_blank" rel="noopener" href="https://cygwin.com/install.html" >cygwin.com/install.html<i class="fas fa-external-link-alt"></i></a>下载安装程序。当安装程序要求您选择要安装的软件包时，请在 <code>devel</code> 类别中查找并选择<code>gcc-core</code> 并 <code>make</code> 软件包。要使用Cygwin，您必须运行Cygwin终端程序。与Windows上的Bash不同，在Cygwin中，您的主目录与Windows主目录是分开的。如果将Cygwin安装到 <code>C:\cygwin64</code>，则主目录位于 <code>C:\cygwin64\home\您的名称</code>。因此，如果您想在Cygwin之外使用文本编辑器来编写代码，则可以在其中保存代码。</p>
+<h3 id="…in-macOS"><a href="#…in-macOS" class="headerlink" title="…in macOS"></a>…in macOS</h3><p>当您尝试运行 <code>cc</code> 命令时，应该会弹出一个窗口，询问您是否要安装命令行开发人员工具包。您也可以运行 <code>xcode-select --install</code> 来弹出此窗口。然后只需单击“安装”，它将安装C编译器、 <code>make</code> 程序等工具。</p>
+<h3 id="…in-Linux"><a href="#…in-Linux" class="headerlink" title="…in Linux"></a>…in Linux</h3><p>Ubuntu 系统, 使用 <code>sudo apt-get install gcc make</code> 命令. 其他发行版也应该包含<code>gcc</code>和 <code>make</code> 程序。<br><br><br><br></p>
+<h2 id="The-main-function-（main函数）"><a href="#The-main-function-（main函数）" class="headerlink" title="The main() function （main函数）"></a>The main() function （main函数）</h2><p>创建一个名为<code>kilo.c</code>的新文件，写下 <code>main()</code> 函数。 （<code>kilo</code> 是我们正在构建的文本编辑器的名称。）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/main" >源文件<i class="fas fa-external-link-alt"></i></a></p>
+<p>在C语言中，您必须将所有可执行代码放入函数中。 C语言中的 <code>main()</code> 函数很特殊，是运行程序时的默认起点。从 <code>main()</code> 函数 <code>return</code> 时，程序将退出并将返回的整数传递回操作系统。返回值为 <code>0</code> 表示成功。</p>
+<p>C是一种编译语言。这意味着我们需要通过C编译器运行程序，以将其转换为可执行文件。然后我们就可以像在命令行上运行任何其他程序一样运行该可执行文件。</p>
+<p>要编译 <code>kilo.c</code>，请在您的shell中运行 <code>cc kilo.c -o kilo</code>。如果没有产生错误，将生成一个名为 <code>kilo</code> 的可执行文件。 <code>-o</code> 代表 “<code>输出</code>”，并指定输出可执行文件应命名为 <code>kilo</code>。</p>
+<p>要运行 <code>kilo</code>，请在shell程序中键入 <code>./kilo</code>并按 <kbd>Enter</kbd>。该程序不会输出任何输出，但是您可以通过运行 <code>echo $？</code>来检查其退出状态（ <code>main()</code> 函数返回值），该输出应为 <code>0</code>。<br><br><br><br></p>
+<h2 id="Compiling-with-make-使用make编译"><a href="#Compiling-with-make-使用make编译" class="headerlink" title="Compiling with make 使用make编译"></a>Compiling with <code>make</code> 使用make编译</h2><p>每次要重新编译时，输入 <code>cc kilo.c -o kilo</code> 会很烦人的。 <code>make</code> 程序使您可以简单地运行 <code>make</code>来编译程序。您只需要提供一个 <code>Makefile</code> 来告诉它如何编译程序。</p>
+<p>创建一个新文件，其名称为 <code>Makefile</code> ，其内容如下。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">kilo: kilo.c</span></span><br><span class="line">	<span class="variable">$(CC)</span> kilo.c -o kilo -Wall -Wextra -pedantic -std=c99</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/make" >源文件<i class="fas fa-external-link-alt"></i></a></p>
+<p>第一行意思是说 <code>kilo</code> （可执行文件）是我们要编译的(结果)，<code>kilo.c</code> 是编译它所需要的。第二行指定要运行的命令，以便真正编译把(源代码) <code>kilo.c</code> 编译成 <code>kilo</code> (可执行文件)。请确保二行使用实际的制表符<kbd>Tab</kbd>而不是空格缩进。您可以根据需要缩进C文件，但 <code>Makefile</code> 必须使用制表符<kbd>Tab</kbd>。</p>
+<p>我们在编译命令中添加了一些内容：</p>
+<ul>
+<li><code>$(CC)</code>是默认情况下 <code>make</code> 在 <code>cc</code> 的扩展变量。</li>
+<li><code>-Wall</code> 代表“<strong>所有警告</strong>”，让编译器对程序中 <em>代码从技术上来说不是错误，但被视为C语言使用的不好习惯的</em> 或者 <em>有问题的</em> 代码时发出警告，类似于在初始化变量之前使用变量这种。</li>
+<li><code>-Wextra</code> 和 <code>-pedantic</code> 会打开更多警告。对于本教程中的每个步骤，您的程序应该可以编译，且不会产生任何警告(除了在某些情况下，“未使用的变量”警告外)。如果收到其他警告，请检查你的代码以确保其与该步骤中的代码完全匹配。</li>
+<li><code>-std = c99</code> 指定我们使用的C语言<strong>标准</strong>的确切版本，即 <a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/C99" >C99<i class="fas fa-external-link-alt"></i></a>。 C99允许我们在函数内的任何位置声明变量，而 <a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ANSI_C" >ANSI C<i class="fas fa-external-link-alt"></i></a> (标准) 要求所有变量都必须在函数或块的顶部声明。<br>现在我们有了一个 <code>Makefile</code> 文件，请尝试运行 <code>make</code> 来编译程序。</li>
+</ul>
+<p>它可能会输出 <code>make: &#39;kilo&#39; is up to date.</code>。它可以通过查看每个文件的上次修改时间戳判断出 <code>kilo.c</code> 的当前版本已被编译。如果 <code>kilo</code>可执行文件已经是 <code>kilo.c</code> 文件经过最后一次修改后的编译产物，它不会再次麻烦的运行编译命令。如果 <code>kilo</code>可执行文件不是 <code>kilo.c</code> 文件经过最后一次修改后的编译产物，<code>make</code> 命令将进行重新编译 <code>kilo.c</code> 文件。这个特性对于具有许多不同组件且可以编译的大型项目而言更为有用，因为当您仅更改其中一个组件的源代码时，不需要一遍又一遍地重新编译大多数组件。</p>
+<p>尝试将 <code>kilo.c</code> 的返回值更改为非 <code>0</code> 的数字。然后运行 <code>make</code>，您应该会看到它会被重新编译。运行 <code>./kilo</code>，然后尝试运行 <code>echo $?</code> 查看您是否能得到你更改后的那个数字。然后将其更改回 <code>0</code>，重新编译，确保返回值为 <code>0</code>。</p>
+<p>对于本教程中的每个步骤，您需要重新编译 <code>kilo.c</code>，来看你是否写了任何错误，然后运行 <code>./kilo</code>。很多时候，你想知道为什么对 <code>kilo.c</code> 所做的为什么没有任何效果，很可能就是你忘记了重新编译，只是运行 <code>./kilo</code>。您必须重新编译才能使 <code>kilo</code> 反应你在 <code>kilo.c</code> 中的修改。</p>
+<p>在 <a class="link"   target="_blank" rel="noopener" href="https://viewsourcecode.org/snaptoken/kilo/02.enteringRawMode.html" >下一章<i class="fas fa-external-link-alt"></i></a> 中，我们将使终端进入<code>raw mode</code>（原生模式），并从用户那里读取各个按键。</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/02/26/%E5%8D%83%E8%A1%8C%E4%BB%A3%E7%A0%81%E6%9E%84%E5%BB%BA%E4%B8%AA%E4%BA%BA%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8%EF%BC%88%E9%9B%B6%EF%BC%89Build-Your-Own-Text-Editor/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">千行代码构建个人文本编辑器（零）Build Your Own Text Editor</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Ling</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.0</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+<script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/header-shrink.js"></script><script src="/js/back2top.js"></script><script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>
