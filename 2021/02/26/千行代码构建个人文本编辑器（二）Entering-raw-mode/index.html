@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Ling">
+    
+    <title>
+        
+            千行代码构建个人文本编辑器（二）Entering raw mode |
+        
+        Ling&#39;s blog
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/l.svg">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#000000","avatar":"/images/avatar.png","favicon":"/images/l.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.0"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                Ling&#39;s blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">千行代码构建个人文本编辑器（二）Entering raw mode</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.png">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Ling</span>
+                        
+                            <span class="author-label">Lv2</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-02-26 19:54:23
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/C/">C</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        &gt; <a href="/categories/C/translation/">translation</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/translation/">translation</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/C/">C</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Fun/">Fun</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/">文本编辑器</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h2 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h2><p><a class="link"   target="_blank" rel="noopener" href="https://viewsourcecode.org/snaptoken/kilo/02.enteringRawMode.html" >原文链接<i class="fas fa-external-link-alt"></i></a><br><br><br><br></p>
+<h2 id="Entering-raw-mode-进入原生模式"><a href="#Entering-raw-mode-进入原生模式" class="headerlink" title="Entering raw mode 进入原生模式"></a>Entering raw mode 进入原生模式</h2><p>让我们尝试读取用户的按键。 </p>
+<h3 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3"></a>Step 3</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">char</span> c;</span><br><span class="line">  <span class="keyword">while</span> (read(STDIN_FILENO, &amp;c, <span class="number">1</span>) == <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/read" >源代码<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>read()</code> 和 <code>STDIN_FILENO</code> 来自 <code>&lt;unistd.h&gt;</code>。我们要求 <code>read()</code> 从标准输入中读取1个字节到变量 <code>c</code> 中，并一直这样做直到没有字节可读为止。 <code>read()</code> 返回读取的数字，到达文件末尾时将返回 <code>0</code>。</p>
+<p>当您运行 <code>./kilo</code> 时，您的终端将连接到标准输入，因此您的键盘输入将被读入 <code>c</code> 变量。但是，默认情况下，您的终端以 <code>canonical mode</code>（也称为 <code>cooked mode</code>）启动。在这种模式下，仅当用户按下 <bkd>Enter</bkd> 键时，键盘输入才会发送到您的程序。这对于很多程序很有用：它允许用户键入一行文本，在他们完全按照所需输入完之前，他都能使用 <bkd>Backspace</bkd> 修复错误，最后才按 <bkd>Enter</bkd> 将其发送给程序。但是对于带有更复杂用户接口的程序（例如文本编辑器），它不能很好地工作。我们希望在每次按键时进行处理，这样我们才可以立即对其进行响应。</p>
+<p>我们想要的是原生模式(<code>raw mode</code>))。不幸的是，没有一个简单开关可以轻易的将终端设置为原生模式。 原生模式是通过关闭终端中的许多标志来实现的，我们将在本章中逐步进行操作完成它。</p>
+<p>要退出上述程序，请按 <bkd>Ctrl-D</bkd> 告诉 <code>read()</code> 它已到达文件末尾。或者，您始终可以按 <code>Ctrl-C</code> 来立即终止程序。<br><br><br><br></p>
+<h2 id="Press-q-to-quit-按-q-退出？"><a href="#Press-q-to-quit-按-q-退出？" class="headerlink" title="Press q to quit? 按 q 退出？"></a>Press <bkd>q</bkd> to quit? 按 <bkd>q</bkd> 退出？</h2><p>为了演示 <code>canonical mode</code> 的工作原理，当程序读取用户按的 <kbd>q</kbd> 键时,我们将使程序退出。</p>
+<h3 id="Step-4"><a href="#Step-4" class="headerlink" title="Step 4"></a>Step 4</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">char</span> c;</span><br><span class="line">  <span class="keyword">while</span> (read(STDIN_FILENO, &amp;c, <span class="number">1</span>) == <span class="number">1</span> &amp;&amp; c != <span class="string">&#x27;q&#x27;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/press-q" >源代码<i class="fas fa-external-link-alt"></i></a></p>
+<p>要退出此程序，您将必须输入一行包含 <code>q</code> 的文本，然后再按Enter。程序将一个字符一个字符的阅读每行文本，直到读取 <code>q</code> ，这时 <code>while</code> 循环将停止,程序将退出。<code>q</code> 后面的任何字符都将在输入队列中，保留未读状态，您可能会看到在程序退出后，这些字符将输入到您的shell中。<br><br><br><br></p>
+<h2 id="Turn-off-echoing-（关闭打印）"><a href="#Turn-off-echoing-（关闭打印）" class="headerlink" title="Turn off echoing （关闭打印）"></a>Turn off echoing （关闭打印）</h2><p>我们可以通过以下方式设置终端的属性：（1）使用 <code>tcgetattr()</code> 函数将当前属性读取到结构体中；（2）手动修改该结构体内容；（3）调用 <code>tcsetattr()</code> 函数并传入修改后的结构体以写入新的终端属性退出。让我们尝试以这种方式关闭 <code>ECHO</code> 功能。</p>
+<h3 id="Step-5"><a href="#Step-5" class="headerlink" title="Step 5"></a>Step 5</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;termios.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enableRawMode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">raw</span>;</span></span><br><span class="line">  tcgetattr(STDIN_FILENO, &amp;raw);</span><br><span class="line">  raw.c_lflag &amp;= ~(ECHO);</span><br><span class="line">  tcsetattr(STDIN_FILENO, TCSAFLUSH, &amp;raw);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  enableRawMode();</span><br><span class="line">  <span class="keyword">char</span> c;</span><br><span class="line">  <span class="keyword">while</span> (read(STDIN_FILENO, &amp;c, <span class="number">1</span>) == <span class="number">1</span> &amp;&amp; c != <span class="string">&#x27;q&#x27;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/echo" >源代码<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>struct termios</code>, <code>tcgetattr()</code>, <code>tcsetattr()</code>, <code>ECHO</code>, 和 <code>TCSAFLUSH</code> 均来自头文件 <code>&lt;termios.h&gt;</code>.</p>
+<p><code>ECHO</code> 功能使您键入的每个键都打印到终端上，因此您可以看到正在键入的内容。这在 <code>canonical mode</code> 下很有用，但是当我们尝试在 <code>raw mode</code> 下呈现用户界面时，却会遇到麻烦。因此，我们将其关闭。该程序与上一步的功能相同，只是不打印您输入的内容。如果您曾经不得不在终端上键入密码（例如，使用<code>sudo</code>），则可能对这种模式很熟悉。</p>
+<p>程序退出后，根据您的shell类型的不同，您可能会发现终端仍未回显您键入的内容。不用担心，它仍然会监听您输入的内容。只需按 <kbd>Ctrl-C</kbd> 即可开始向你的 shell 输入新行，然后键入<code>reset</code> 并按 <kbd>Enter</kbd>。在大多数情况下，这会将您的终端重置为正常状态。即使这也失败的话，您还是可以重新启动终端的。我们将在下一步解决这个问题。</p>
+<p>可以用 <code>tcgetattr()</code> 将终端属性读入到 <code>termios</code> 结构体中。修改它们之后，您可以使用 <code>tcsetattr()</code> 将它们应用于终端。 <code>TCSAFLUSH</code> 参数指定何时更改应用：在此处的情况下，它等待所有待处理的输出写入终端，并丢弃所有尚未读取的输入。</p>
+<p><code>c_lflag</code> 字段用为“本地标志”。 macOS的 <code>&lt;termios.h&gt;</code> 中的注释将其描述为“其他状态的丢弃地”。因此，也许应该将其视为“混杂标志”。其他标志字段有 <code>c_iflag</code>（输入标志），<code>c_oflag</code>（输出标志）和 <code>c_cflag</code>（控制标志），为启用原始模式，这些我们都必须对其进行修改。</p>
+<p><code>ECHO</code> 是一个 <a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Bit_field" >bitflag<i class="fas fa-external-link-alt"></i></a>，二进制形式定义为 <code>00000000000000000000000000001000</code>。我们对该值使用按位运算符“非”（<code>〜</code>）来获取 <code>11111111111111111111111111111110111</code> ，然后将该值与flags字段按位“与”，这将强制flags字段中的第四位变为 <code>0</code>，并使其他所有位保留其原值。像这样进行翻转位操作，在C语言中很常见。<br><br><br><br></p>
+<h2 id="Disable-raw-mode-at-exit-退出时关闭原生模式"><a href="#Disable-raw-mode-at-exit-退出时关闭原生模式" class="headerlink" title="Disable raw mode at exit 退出时关闭原生模式"></a>Disable raw mode at exit 退出时关闭原生模式</h2><p>让我们对用户好一点，在程序退出时恢复其终端的原模式。我们将以原状态保存在一个 <code>termios</code> 结构体中，并在程序退出时使用 <code>tcsetattr()</code> 将其应用于终端。</p>
+<h3 id="Step-6"><a href="#Step-6" class="headerlink" title="Step 6"></a>Step 6</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;termios.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">orig_termios</span>;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disableRawMode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  tcsetattr(STDIN_FILENO, TCSAFLUSH, &amp;orig_termios);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enableRawMode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  tcgetattr(STDIN_FILENO, &amp;orig_termios);</span><br><span class="line">  atexit(disableRawMode);</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">raw</span> =</span> orig_termios;</span><br><span class="line">  raw.c_lflag &amp;= ~(ECHO);</span><br><span class="line">  tcsetattr(STDIN_FILENO, TCSAFLUSH, &amp;raw);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123; … &#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/atexit" >源代码<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>atexit()</code> 函数来自头文件 <code>&lt;stdlib.h&gt;</code>。我们使用它来注册我们的 <code>disableRawMode()</code> 函数，以便在程序退出时自动调用（无论是通过 <code>main()</code> 返回还是通过调用 <code>exit()</code> 函数退出）。这样，我们可以确保在程序退出时将终端属性恢复为原状态。</p>
+<p>我们将原始终端属性存储在全局变量<code>orig_termios</code>中。我们将 <code>orig_termios</code> 结构分配给原始结构，以便在开始进行更改之前对其进行复制。</p>
+<p>您可能会注意到，程序退出后，剩余的输入不再输入到您的shell中。这是因为在程序退出时将<code>TCSAFLUSH</code> 参数传递到 <code>tcsetattr()</code>。如前所述，在将更改应用到终端之前，它会丢弃所有未读的输入。 （注意：由于某些原因，这种情况在 <code>Cygwin</code> 中不会发生，但是一旦我们一次读取一个字节就没关系了。）<br><br><br><br></p>
+<h2 id="Turn-off-canonical-mode-（关闭-canonical-模式）"><a href="#Turn-off-canonical-mode-（关闭-canonical-模式）" class="headerlink" title="Turn off canonical mode （关闭 canonical 模式）"></a>Turn off canonical mode （关闭 canonical 模式）</h2><p>有一个 <code>ICANON</code> 标志，可以使我们可以关闭 <code>canonical</code> 模式。这意味着我们终于可以逐字节读取输入，而不用逐行读取。</p>
+<h3 id="Step-7"><a href="#Step-7" class="headerlink" title="Step 7"></a>Step 7</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;termios.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">orig_termios</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disableRawMode</span><span class="params">()</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enableRawMode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  tcgetattr(STDIN_FILENO, &amp;orig_termios);</span><br><span class="line">  atexit(disableRawMode);</span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">raw</span> =</span> orig_termios;</span><br><span class="line">  raw.c_lflag &amp;= ~(ECHO | ICANON);</span><br><span class="line"></span><br><span class="line">  tcsetattr(STDIN_FILENO, TCSAFLUSH, &amp;raw);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123; … &#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/icanon" >源代码<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>ICANON</code> 出自头文件 <code>&lt;termios.h&gt;</code>。 输入标志（c_iflag字段中的标志）通常以 <code>I</code> 开头, 如 <code>ICANON</code> 一样。但是，<code>ICANON</code> 却不是输入标志，而是 <code>c_lflag</code> 字段中的“本地”标志。令人困惑。</p>
+<p>现在，一旦按 <kbd>q</kbd>，程序将立即退出。</p>
+<br>
+<br>
+
+<h2 id="Display-keypresses-显示按键内容"><a href="#Display-keypresses-显示按键内容" class="headerlink" title="Display keypresses (显示按键内容)"></a>Display keypresses (显示按键内容)</h2><p>为了更好地了解原生模式下的输入是如何工作的，让我们打印出 <code>read()</code> 的每个字节。我们将打印每个字符的ASCII数字值，以及它代表的字符（如果它是可打印的字符）。</p>
+<h3 id="Step-8"><a href="#Step-8" class="headerlink" title="Step 8"></a>Step 8</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;termios.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">orig_termios</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disableRawMode</span><span class="params">()</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enableRawMode</span><span class="params">()</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  enableRawMode();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">char</span> c;</span><br><span class="line">  <span class="keyword">while</span> (read(STDIN_FILENO, &amp;c, <span class="number">1</span>) == <span class="number">1</span> &amp;&amp; c != <span class="string">&#x27;q&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">iscntrl</span>(c)) &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, c);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;%d (&#x27;%c&#x27;)\n&quot;</span>, c, c);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/keypresses" >源代码<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>iscntrl()</code>来自 <code>&lt;ctype.h&gt;</code>，<code>printf()</code> 来自 <code>&lt;stdio.h&gt;</code>。</p>
+<p><code>iscntrl()</code> 检查字符是否为控制字符。控制字符是我们不想在屏幕上打印的非打印的字符。 ASCII代码0–31都是控制字符，127也是控制字符。 ASCII代码32–126均可打印。 （参见<a class="link"   target="_blank" rel="noopener" href="http://asciitable.com/" >ASCII table<i class="fas fa-external-link-alt"></i></a> 以查看所有字符。）</p>
+<p><code>printf()</code> 可以将一个字节以多种表示形式打印出来。<code>％d</code> 告诉它将字节格式化为十进制数字（ASCII码），<code>％c</code> 告诉它直接打印字符。</p>
+<p>这是一个非常有用的程序。它向我们展示了各种按键如何转换为我们读取的字节。大多数普通键直接转换为它们所代表的字符。但是请尝试看看按箭头键，<kbd>Escape</kbd> ，<kbd>Page Up</kbd>, <kbd>Page Down</kbd>, <kbd>Home</kbd>, <kbd>End</kbd>, <kbd>Backspace</kbd>, <kbd>Delete</kbd>, <kbd>Enter</kbd>。或者试试使用 <kbd>Ctrl</kbd> 组合键，例如 <kbd>Ctrl-A</kbd> ，<kbd>Ctrl-B</kbd> 等。</p>
+<p>您会注意到一些有趣的事情：</p>
+<ul>
+<li><p>方向键，<kbd>Page Up</kbd>, <kbd>Page Down</kbd>, <kbd>Home</kbd>, <kbd>End</kbd> 都向终端输入3或4个字节：<code>27</code>，<code>&#39;[&#39;</code>，然后是一个或两个其他字符。这称为转义序列(<code>escape sequence</code>)。所有转义序列均以 <code>27</code> 字节开头。按下 <kbd>Escape</kbd> 键将发送一个 <code>27</code> 字节作为输入。</p>
+</li>
+<li><p><kbd>Backspace</kbd>是字节 <code>127</code>。<kbd>Delete</kbd> 是4字节的转义序列。</p>
+</li>
+<li><p><kbd>Enter</kbd> 是字节 <code>10</code>，这是一个换行符，也称为 <code>&#39;\n&#39;</code>。</p>
+</li>
+<li><p><kbd>Ctrl-A</kbd> 为 <code>1</code>，<kbd>Ctrl-B</kbd> 为 <code>2</code>，<kbd>Ctrl-C</kbd> 为… 哦，终止该程序，对吧。但是有效的<kbd>Ctrl</kbd> 键组合似乎将字母A–Z映射到代码1–26。</p>
+<p>顺便说一句，如果您碰巧按了 <kbd>Ctrl-S</kbd>，您可能会发现您的程序似乎被冻结了。按<kbd>Ctrl-S</kbd>，你实际上做的是要求程序停止发送输出 （<a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Software_flow_control" >stop sending you output<i class="fas fa-external-link-alt"></i></a>）。按<kbd>Ctrl-Q</kbd> 告诉它恢复发送您的输出。</p>
+</li>
+</ul>
+<p>同样，如果您按 <kbd>Ctrl-Z</kbd> （或者按<kbd>Ctrl-Y</kbd> ），您的程序将被挂起到后台。运行 <code>fg</code> 命令将其恢复到前台。 （它可能会立即退出，因为 <code>read()</code> 返回 <code>-1</code> 表示发生了错误。这种情况发生在macOS上，而Linux似乎能够正确恢复 <code>read()</code> 调用。）<br><br><br><br></p>
+<h2 id="Turn-off-Ctrl-C-and-Ctrl-Z-signals-（关闭Ctrl-C-和-Ctrl-Z的信号发送）"><a href="#Turn-off-Ctrl-C-and-Ctrl-Z-signals-（关闭Ctrl-C-和-Ctrl-Z的信号发送）" class="headerlink" title="Turn off Ctrl-C and Ctrl-Z signals （关闭Ctrl-C 和 Ctrl-Z的信号发送）"></a>Turn off <kbd>Ctrl-C</kbd> and <kbd>Ctrl-Z</kbd> signals （关闭<kbd>Ctrl-C</kbd> 和 <kbd>Ctrl-Z</kbd>的信号发送）</h2><p>默认情况下，<kbd>Ctrl-C</kbd> 向当前进程发送一个 <code>SIGINT</code> 信号，来终止它。<kbd>Ctrl-Z</kbd>向当前进程发送一个 <code>SIGTSTP</code> 信号，导致它挂起。让我们关闭这两个信号的发送。</p>
+<h3 id="Step-9"><a href="#Step-9" class="headerlink" title="Step 9"></a>Step 9</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;termios.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">orig_termios</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disableRawMode</span><span class="params">()</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enableRawMode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  tcgetattr(STDIN_FILENO, &amp;orig_termios);</span><br><span class="line">  atexit(disableRawMode);</span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">raw</span> =</span> orig_termios;</span><br><span class="line">  raw.c_lflag &amp;= ~(ECHO | ICANON | ISIG);</span><br><span class="line"></span><br><span class="line">  tcsetattr(STDIN_FILENO, TCSAFLUSH, &amp;raw);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123; … &#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/isig" >源代码<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>ISIG</code> 来自 <code>&lt;termios.h&gt;</code>。像 <code>ICANON</code>一样，它以 <code>I</code>开头，但不是输入标志。</p>
+<p>现在，<kbd>Ctrl-C</kbd> 可以读取为字节 <code>3</code>，而 <kbd>Ctrl-Z</kbd> 可以读取为字节 <code>26</code>。</p>
+<p>这也会在macOS上禁用 <kbd>Ctrl-Y</kbd> ，就像 <kbd>Ctrl-Z</kbd> 一样，不同之处在于它在挂起之前会等待程序读取输入。<br><br><br><br></p>
+<h2 id="Disable-Ctrl-S-and-Ctrl-Q"><a href="#Disable-Ctrl-S-and-Ctrl-Q" class="headerlink" title="Disable Ctrl-S and Ctrl-Q"></a>Disable <kbd>Ctrl-S</kbd> and <kbd>Ctrl-Q</kbd></h2><p>默认情况下，<kbd>Ctrl-S</kbd> 和 <kbd>Ctrl-Q</kbd>用于软件流控制。<kbd>Ctrl-S</kbd> 会阻止数据传输到终端，直到您按 <kbd>Ctrl-Q</kbd>为止。这源于您可能希望暂停数据传输以让打印机等设备赶上时代的日子。让我们关闭该功能。</p>
+<h3 id="Step-10"><a href="#Step-10" class="headerlink" title="Step 10"></a>Step 10</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;termios.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">orig_termios</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disableRawMode</span><span class="params">()</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enableRawMode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  tcgetattr(STDIN_FILENO, &amp;orig_termios);</span><br><span class="line">  atexit(disableRawMode);</span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">raw</span> =</span> orig_termios;</span><br><span class="line">  raw.c_iflag &amp;= ~(IXON);</span><br><span class="line">  raw.c_lflag &amp;= ~(ECHO | ICANON | ISIG);</span><br><span class="line"></span><br><span class="line">  tcsetattr(STDIN_FILENO, TCSAFLUSH, &amp;raw);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123; … &#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/ixon" >源代码<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>IXON</code> 来自 <code>&lt;termios.h&gt;</code>。 <code>I</code> 代表“输入标志”（与到目前为止我们看到的其他 <code>I</code>标志不同），<code>XON</code> 来自两个名称为 <kbd>Ctrl-S</kbd> 和 <kbd>Ctrl-Q</kbd> 的控制字符产生：<code>XOFF</code> 以暂停传输 <code>XON</code>恢复传输。</p>
+<p>现在， <kbd>Ctrl-S</kbd> 可以读取为字节<code>19</code>，而 <kbd>Ctrl-Q</kbd> 可以读取为字节<code>17</code>。</p>
+<br>
+<br>
+
+<h2 id="Disable-Ctrl-V"><a href="#Disable-Ctrl-V" class="headerlink" title="Disable Ctrl-V"></a>Disable <kbd>Ctrl-V</kbd></h2><p>在某些系统上，当您键入 <kbd>Ctrl-V</kbd>时，终端将等待您键入另一个字符，然后按字面意义发送该字符。例如，在禁用 <kbd>Ctrl-C</kbd>之前，您可能可以先按 <kbd>Ctrl-V</kbd>，然后按 <kbd>Ctrl-C</kbd>输入字节<code>3</code>。 我们可以使用 <code>IEXTEN</code> 标志关闭此功能。</p>
+<p>关闭 <code>IEXTEN</code> 还可以修复macOS中的 <kbd>Ctrl-O</kbd>，否则其终端驱动程序将设置为放弃该控制字符。</p>
+<h3 id="Step-11"><a href="#Step-11" class="headerlink" title="Step 11"></a>Step 11</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;termios.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">orig_termios</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disableRawMode</span><span class="params">()</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enableRawMode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  tcgetattr(STDIN_FILENO, &amp;orig_termios);</span><br><span class="line">  atexit(disableRawMode);</span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">raw</span> =</span> orig_termios;</span><br><span class="line">  raw.c_iflag &amp;= ~(IXON);</span><br><span class="line">  raw.c_lflag &amp;= ~(ECHO | ICANON | IEXTEN | ISIG);</span><br><span class="line"></span><br><span class="line">  tcsetattr(STDIN_FILENO, TCSAFLUSH, &amp;raw);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123; … &#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/iexten" >源代码<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>IEXTEN</code> 来自 <code>&lt;termios.h&gt;</code> 。这是另一个以 <code>I</code>开头但属于 <code>c_lflag</code> 字段的标志。</p>
+<p><kbd>Ctrl-V</kbd>现在可以读取为字节<code>22</code>，而 <kbd>Ctrl-O</kbd>可以读取为字节<code>15</code>。<br><br><br><br></p>
+<h2 id="Fix-Ctrl-M"><a href="#Fix-Ctrl-M" class="headerlink" title="Fix Ctrl-M"></a>Fix <kbd>Ctrl-M</kbd></h2><p>如果现在运行该程序，按住Ctrl的同时逐个按其他所有字母，则应该看到除 <code>M</code> 之外的每个字母。 <kbd>Ctrl-M</kbd> 很奇怪：它的读数为 <code>10</code>，而不是我们期望它的读数 —— <code>13</code>。因为它是字母表的第13个字母，并且 <kbd>Ctrl-J</kbd> 已经产生了 <code>10</code>。还有什么产生<code>10</code>？ <kbd>Enter</kbd>键。</p>
+<p>事实证明，该终端“贴心的”将用户输入的回车符（<code>13</code>，<code>&#39;\r&#39;</code>）转换为回车换行符（<code>10</code>，<code>&#39;\ n&#39;</code>）。让我们关闭此功能。</p>
+<h3 id="Step-12"><a href="#Step-12" class="headerlink" title="Step 12"></a>Step 12</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;termios.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">orig_termios</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disableRawMode</span><span class="params">()</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enableRawMode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  tcgetattr(STDIN_FILENO, &amp;orig_termios);</span><br><span class="line">  atexit(disableRawMode);</span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">raw</span> =</span> orig_termios;</span><br><span class="line">  raw.c_iflag &amp;= ~(ICRNL | IXON);</span><br><span class="line">  raw.c_lflag &amp;= ~(ECHO | ICANON | IEXTEN | ISIG);</span><br><span class="line"></span><br><span class="line">  tcsetattr(STDIN_FILENO, TCSAFLUSH, &amp;raw);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123; … &#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/icrnl" >源代码<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>ICRNL</code> 来自 <code>&lt;termios.h&gt;</code>。 <code>I</code> 代表“输入标志”，<code>CR</code> 代表“回车”，<code>NL</code> 代表“换行”。</p>
+<p>现在， <kbd>Ctrl-M</kbd> 被读取为 <code>13</code>（回车符），而 <kbd>Enter</kbd>键也被读取为 <code>13</code>。</p>
+<br>
+<br>
+
+<h2 id="Turn-off-all-output-processing"><a href="#Turn-off-all-output-processing" class="headerlink" title="Turn off all output processing"></a>Turn off all output processing</h2><p>事实证明，终端在输出端进行了类似的转换。它会将我们打印的每个换行符（<code>&quot;\n&quot;</code>）转换为回车符后跟换行符（<code>&quot;\r\n&quot;</code>）。终端需要这两个字符才能开始新的一行文本。回车键将光标移回当前行的开头，换行符将光标移至下一行，并在必要时滚动屏幕。 （这两个不同的操作起源于打字机和电传打字时代(<a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Teleprinter" >teletypes<i class="fas fa-external-link-alt"></i></a>)。）</p>
+<p>我们将通过 <code>OPOST</code> 标志来关闭所有输出处理功能。实际上，默认情况下，<code>&quot;\n&quot;</code> 到 <code>&quot;\r\n&quot;</code> 的转换可能是输出处理功能唯一打开的内容。</p>
+<h3 id="Step-13"><a href="#Step-13" class="headerlink" title="Step 13"></a>Step 13</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;termios.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">orig_termios</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disableRawMode</span><span class="params">()</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enableRawMode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  tcgetattr(STDIN_FILENO, &amp;orig_termios);</span><br><span class="line">  atexit(disableRawMode);</span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">raw</span> =</span> orig_termios;</span><br><span class="line">  raw.c_iflag &amp;= ~(ICRNL | IXON);</span><br><span class="line">  raw.c_oflag &amp;= ~(OPOST);</span><br><span class="line">  raw.c_lflag &amp;= ~(ECHO | ICANON | IEXTEN | ISIG);</span><br><span class="line"></span><br><span class="line">  tcsetattr(STDIN_FILENO, TCSAFLUSH, &amp;raw);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123; … &#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/opost" >源代码<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>OPOST</code> 来自<code>&lt;termios.h&gt;</code>。 <code>O</code> 表示它是一个输出标志，我假设 <code>POST</code>代表“输出后处理”。</p>
+<p>如果您现在运行该程序，将会看到我们正在打印的换行符只是向下移动光标，而不是向屏幕左侧移动。为了解决这个问题，我们将回车符添加到我们的 <code>printf()</code>语句中。</p>
+<h3 id="Step-14"><a href="#Step-14" class="headerlink" title="Step 14"></a>Step 14</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;termios.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">orig_termios</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disableRawMode</span><span class="params">()</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enableRawMode</span><span class="params">()</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  enableRawMode();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">char</span> c;</span><br><span class="line">  <span class="keyword">while</span> (read(STDIN_FILENO, &amp;c, <span class="number">1</span>) == <span class="number">1</span> &amp;&amp; c != <span class="string">&#x27;q&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">iscntrl</span>(c)) &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;%d\r\n&quot;</span>, c);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;%d (&#x27;%c&#x27;)\r\n&quot;</span>, c, c);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/carriage-returns" >源代码<i class="fas fa-external-link-alt"></i></a></p>
+<p>从现在开始，每当要开始新行时，我们都必须写出完整的 <code>&quot;\r\n&quot;</code>。<br><br><br><br></p>
+<h2 id="Miscellaneous-flags"><a href="#Miscellaneous-flags" class="headerlink" title="Miscellaneous flags"></a>Miscellaneous flags</h2><p>让我关闭一些更多的标志。</p>
+<h3 id="Step-15"><a href="#Step-15" class="headerlink" title="Step 15"></a>Step 15</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;termios.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">orig_termios</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disableRawMode</span><span class="params">()</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enableRawMode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  tcgetattr(STDIN_FILENO, &amp;orig_termios);</span><br><span class="line">  atexit(disableRawMode);</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">raw</span> =</span> orig_termios;</span><br><span class="line">  raw.c_iflag &amp;= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);</span><br><span class="line">  raw.c_oflag &amp;= ~(OPOST);</span><br><span class="line">  raw.c_cflag |= (CS8);</span><br><span class="line">  raw.c_lflag &amp;= ~(ECHO | ICANON | IEXTEN | ISIG);</span><br><span class="line">  tcsetattr(STDIN_FILENO, TCSAFLUSH, &amp;raw);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123; … &#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/misc-flags" >源代码<i class="fas fa-external-link-alt"></i></a><br><code>BRKINT</code>，<code>INPCK</code>，<code>ISTRIC</code> 和 <code>CS8</code> 均来自 <code>&lt;termios.h&gt;</code>。</p>
+<p>您可能观察不到这一步的任何效果，因为这些标志不是已经被关闭，就是它们实际上已不适用于现代终端仿真器。但是之前的某个时候，关闭它们被认为是启用“原始模式”的一部分，因此我们在程序中保留了这一传统。</p>
+<p>据我所知：</p>
+<ul>
+<li>当 <code>BRKINT</code> 打开时，中断条件将导致 <code>SIGINT</code> 信号发送到程序，就像按 <code>Ctrl-C</code>一样。</li>
+<li><code>INPCK</code> 启用奇偶校验，这似乎不适用于现代的终端仿真器。</li>
+<li><code>ISTRIP</code> 导致每个输入字节的第8位被剥离，这意味着它将设置为 <code>0</code>。这可能已经被关闭。</li>
+<li><code>CS8</code> 不是标志，它是具有多个位的位掩码，与我们要关闭的所有标志不同，我们使用按位或（<code>|</code>）运算符进行设置。它将字符大小（CS）设置为每字节8位。在我的系统上，它已经设置好了。</li>
+</ul>
+<br>
+<br>
+
+<h2 id="A-timeout-for-read-（为-read-函数设置超时时间"><a href="#A-timeout-for-read-（为-read-函数设置超时时间" class="headerlink" title="A timeout for read() （为 read() 函数设置超时时间)"></a>A timeout for <code>read()</code> （为 <code>read()</code> 函数设置超时时间)</h2><p>目前， <code>read()</code> 函数将无限期地等待键盘输入，然后返回。如果我们想在等待用户输入的同时做一些动画操作，该怎么办？我们可以设置一个超时时间，以便在一定时间内没有任何输入的情况下，<code>read()</code> 将会返回。</p>
+<h3 id="Step-16"><a href="#Step-16" class="headerlink" title="Step 16"></a>Step 16</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;termios.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">orig_termios</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disableRawMode</span><span class="params">()</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enableRawMode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  tcgetattr(STDIN_FILENO, &amp;orig_termios);</span><br><span class="line">  atexit(disableRawMode);</span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">raw</span> =</span> orig_termios;</span><br><span class="line">  raw.c_iflag &amp;= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);</span><br><span class="line">  raw.c_oflag &amp;= ~(OPOST);</span><br><span class="line">  raw.c_cflag |= (CS8);</span><br><span class="line">  raw.c_lflag &amp;= ~(ECHO | ICANON | IEXTEN | ISIG);</span><br><span class="line">  raw.c_cc[VMIN] = <span class="number">0</span>;</span><br><span class="line">  raw.c_cc[VTIME] = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  tcsetattr(STDIN_FILENO, TCSAFLUSH, &amp;raw);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  enableRawMode();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">char</span> c = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">    read(STDIN_FILENO, &amp;c, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">iscntrl</span>(c)) &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;%d\r\n&quot;</span>, c);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;%d (&#x27;%c&#x27;)\r\n&quot;</span>, c, c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="string">&#x27;q&#x27;</span>) <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/vmin-vtime" >源代码<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>VMIN</code> 和 <code>VTIME</code> 来自 <code>&lt;termios.h&gt;</code>。它们是 <code>c_cc</code> 的索引，<code>c_cc</code> 代表“控制字符”，即控制各种终端设置的字节数组。</p>
+<p><code>VMIN</code> 值设置 <code>read()</code> 返回之前所需的最小输入字节数。我们将其设置为 <code>0</code>，以便在有任何输入要读取时，<code>read()</code> 会立即返回。 <code>VTIME</code> 值设置 <code>read()</code> 返回之前要等待的最长时间。它以十分之一秒为单位，因此我们将其设置为1/10秒或100毫秒。如果<code>read()</code> 超时，它将返回 <code>0</code>，这是有道理的，因为其通常的返回值是读取的字节数。</p>
+<p>当您运行该程序时，您可以看到 <code>read()</code> 超时的频率。如果您不提供任何输入，则<code>read()</code>会在不设置 <code>c</code>变量的情况下返回，该变量保留其 <code>0</code> 值，因此您会看到0被打印出来。如果您输入的速度非常快，那么每次按键后，<code>read()</code> 都会立即返回，因为您不太可能每十分之一秒只能读取一次按键。</p>
+<p>如果您在Windows 上使用 <strong>Bash on Windows</strong>，则可能会看到 <code>read()</code> 仍然无法输入。<strong>Bash on Windows</strong>似乎并不在乎 <code>VTIME</code>值。幸运的是，这在我们的文本编辑器中不会有太大的不同，因为基本上我们无论如何都会阻止输入。<br><br><br><br></p>
+<h2 id="Error-handling-错误处理"><a href="#Error-handling-错误处理" class="headerlink" title="Error handling 错误处理"></a>Error handling 错误处理</h2><p><code>enableRawMode()</code> 现在使我们完全的进入原生模式。现在该通过添加一些错误处理来清理代码了。</p>
+<p>首先，我们将添加 <code>die()</code>函数，该函数将显示错误消息并退出程序。</p>
+<h3 id="Step-17"><a href="#Step-17" class="headerlink" title="Step 17"></a>Step 17</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;termios.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">orig_termios</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">die</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *s)</span> </span>&#123;</span><br><span class="line">  perror(s);</span><br><span class="line">  <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disableRawMode</span><span class="params">()</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enableRawMode</span><span class="params">()</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123; … &#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/die" >源代码<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>perror()</code> 来自 <code>&lt;stdio.h&gt;</code>，<code>exit()</code> 来自 <code>&lt;stdlib.h&gt;</code>。</p>
+<p>大多数失败的C库函数都将设置全局 <code>errno</code> 变量以指示错误是什么。 <code>perror()</code>查看全局<code>errno</code> 变量并为其打印描述性错误消息。在打印错误消息之前，它还会打印给它的字符串，这是为了指出代码的哪一部分导致错误。</p>
+<p>在打印出错误消息后，我们以退出状态 <code>1</code> 退出程序，该退出状态指示失败（任何非零值也将失败）。</p>
+<p>让我们检查每个库调用是否失败，并在失败时调用<code>die()</code>。</p>
+<h3 id="Step-18"><a href="#Step-18" class="headerlink" title="Step 18"></a>Step 18</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;termios.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">orig_termios</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">die</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *s)</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disableRawMode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (tcsetattr(STDIN_FILENO, TCSAFLUSH, &amp;orig_termios) == <span class="number">-1</span>)</span><br><span class="line">    die(<span class="string">&quot;tcsetattr&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enableRawMode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (tcgetattr(STDIN_FILENO, &amp;orig_termios) == <span class="number">-1</span>) die(<span class="string">&quot;tcgetattr&quot;</span>);</span><br><span class="line">  atexit(disableRawMode);</span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">raw</span> =</span> orig_termios;</span><br><span class="line">  raw.c_iflag &amp;= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);</span><br><span class="line">  raw.c_oflag &amp;= ~(OPOST);</span><br><span class="line">  raw.c_cflag |= (CS8);</span><br><span class="line">  raw.c_lflag &amp;= ~(ECHO | ICANON | IEXTEN | ISIG);</span><br><span class="line">  raw.c_cc[VMIN] = <span class="number">0</span>;</span><br><span class="line">  raw.c_cc[VTIME] = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (tcsetattr(STDIN_FILENO, TCSAFLUSH, &amp;raw) == <span class="number">-1</span>) die(<span class="string">&quot;tcsetattr&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  enableRawMode();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">char</span> c = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">    <span class="keyword">if</span> (read(STDIN_FILENO, &amp;c, <span class="number">1</span>) == <span class="number">-1</span> &amp;&amp; errno != EAGAIN) die(<span class="string">&quot;read&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">iscntrl</span>(c)) &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;%d\r\n&quot;</span>, c);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;%d (&#x27;%c&#x27;)\r\n&quot;</span>, c, c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="string">&#x27;q&#x27;</span>) <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/error-handling" >源代码<i class="fas fa-external-link-alt"></i></a></p>
+<p><code>errno</code> 和 <code>EAGAIN</code> 来自 <code>&lt;errno.h&gt;</code>。</p>
+<p><code>tcsetattr()</code>，<code>tcgetattr()</code> 和 <code>read()</code> 在失败时均返回 <code>-1</code>，并设置<code>errno</code>值以指示错误。</p>
+<p>在Cygwin中，当 <code>read()</code> 超时时，它将返回 <code>-1</code>，并带有一个 <code>EAGAIN</code> 的 <code>errno</code>，而不是像预期的那样仅返回 <code>0</code>。为了使其在Cygwin中正常运行，我们不会将 <code>EAGAIN</code> 视为错误。</p>
+<p>使 <code>tcgetattr()</code> 失败的一种简单方法是给您的程序一个文本文件或一个管道作为标准输入，而不是您的终端。要给它一个文件作为标准输入，请运行<code>./kilo &lt;kilo.c</code>。要给它一个管道，运行 <code>echo test | ./kilo</code>。两者都应导致来自 <code>tcgetattr()</code> 的相同错误，类似于<code>Inappropriate ioctl for device</code> 的错误。</p>
+<br>
+<br>
+
+<h2 id="Sections"><a href="#Sections" class="headerlink" title="Sections"></a>Sections</h2><p>即将结束本章有关进入原生模式的章节。我们现在要做的最后一件事是将我们的代码分成几个部分。这将使 <code>diff</code> 变得更短，因为中 <code>diff</code> 中未更改的每个部分都将折叠为一行。</p>
+<h3 id="Step-19"><a href="#Step-19" class="headerlink" title="Step 19"></a>Step 19</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*** includes ***/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;termios.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*** data ***/</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">termios</span> <span class="title">orig_termios</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*** terminal ***/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">die</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *s)</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disableRawMode</span><span class="params">()</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enableRawMode</span><span class="params">()</span> </span>&#123; … &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*** init ***/</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123; … &#125;</span><br></pre></td></tr></table></figure>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/snaptoken/kilo-src/tree/sections" >源代码<i class="fas fa-external-link-alt"></i></a></p>
+<p>在 <a class="link"   target="_blank" rel="noopener" href="https://viewsourcecode.org/snaptoken/kilo/03.rawInputAndOutput.html" >下一章<i class="fas fa-external-link-alt"></i></a> 中，我们将进行一些更底层的终端输入/输出处理，并使用它来绘制到屏幕上，并允许用户移动光标。</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/02/26/%E5%8D%83%E8%A1%8C%E4%BB%A3%E7%A0%81%E6%9E%84%E5%BB%BA%E4%B8%AA%E4%BA%BA%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8%EF%BC%88%E4%B8%80%EF%BC%89Setup/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">千行代码构建个人文本编辑器（一）Setup</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Ling</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.0</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+<script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/header-shrink.js"></script><script src="/js/back2top.js"></script><script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>
